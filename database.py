@@ -19,7 +19,7 @@ class Driver(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     brand = Column(String)
     model = Column(String)
-    name = Column(String)
+    title = Column(String)
     version = Column(String)
     importance = Column(String)
     category = Column(String)
@@ -32,11 +32,12 @@ class Driver(Base):
 
 # 定義連接引擎
 engine = create_engine("sqlite:///firmwares.sqlite")
+test = create_engine("sqlite:///test.sqlite")
 # 建立資料表
-Base.metadata.create_all(engine)
+Base.metadata.create_all(test)
 
 # 建立 session 類別
-Session = sessionmaker(bind=engine)
+Session = sessionmaker(bind=test)
 
 
 # 設定 email
@@ -61,10 +62,10 @@ def send_email_notification(message):
 @event.listens_for(Session, "before_commit")
 def receive_after_commit(session):
     for obj in session.new:
-        message = "brand={}\nmodel={}\nname={}\nversion={}\nimportance={}\ncategory={}\nrelease_date={}".format(
+        message = "brand={}\nmodel={}\ntitle={}\nversion={}\nimportance={}\ncategory={}\nrelease_date={}".format(
             obj.brand,
             obj.model,
-            obj.name,
+            obj.title,
             obj.version,
             obj.importance,
             obj.category,
@@ -77,9 +78,9 @@ def receive_after_commit(session):
         "Content-Type": "application/x-www-form-urlencoded",
     }
     params = {"message": message}
-    requests.post(
-        "https://notify-api.line.me/api/notify", headers=headers, params=params
-    )
+    # requests.post(
+    #     "https://notify-api.line.me/api/notify", headers=headers, params=params
+    # )
 
     # # 透過 email 發送
     # send_email_notification(message)

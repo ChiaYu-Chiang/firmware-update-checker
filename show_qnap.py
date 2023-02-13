@@ -8,8 +8,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
 from database import Session, Driver
 
-brand = "gigabyte"
-model = "R182-340"
+brand = "qnap"
+model = "TS-269L"
 
 # 設定 webdriver 參數
 options = Options()
@@ -21,19 +21,20 @@ browser = webdriver.Chrome(options=options)
 wait = WebDriverWait(browser, 30)
 
 # 訪問網頁
-browser.get(
-    "https://www.gigabyte.com/tw/Enterprise/Rack-Server/R182-340-rev-100#Support-Firmware"
-)
+browser.get("https://www.qnap.com/zh-tw/download?model=ts-269l&category=firmware")
 
-# 等待資料顯式
+# 等待元素出現
 element = wait.until(
     EC.visibility_of_element_located(
-        (By.XPATH, '//*[@id="Section-Support"]/div/div[2]/div/div[4]')
+        (
+            By.XPATH,
+            '//*[@id="download_result"]/div[3]/table/tbody',
+        )
     )
 )
 
 # 定位目標元素
-contents = element.find_elements(By.XPATH, "div/div[2]/div[2]")
+contents = element.find_elements(By.XPATH, "tr")
 
 # 創建 Session 實例
 session = Session()
@@ -42,25 +43,16 @@ session = Session()
 print("Start crawling")
 for content in contents:
     # 取得資料
-    title = content.find_element(
-        By.XPATH,
-        "div[1]",
-    ).text
-    version = content.find_element(
-        By.XPATH,
-        "div[2]",
-    ).text
-    release_date = content.find_element(
-        By.XPATH,
-        "div[4]",
-    ).text
-    download_link = content.find_element(
-        By.XPATH,
-        "div[5]/a",
-    ).get_attribute("href")
+    title = content.find_element(By.XPATH, "td[1]/div").text
+    version = content.find_element(By.XPATH, "td[2]").text
+    release_date = content.find_element(By.XPATH, "td[3]").text
+    download_link = content.find_element(By.XPATH, "td[4]/ul/li[1]/a").get_attribute(
+        "href"
+    )
+    description = content.find_element(By.XPATH, "td[5]/a").get_attribute("data-note")
 
     # 資料格式處理
-    release_date = datetime.strptime(release_date, "%Y/%m/%d").date()
+    release_date = datetime.strptime(release_date, "%Y-%m-%d").date()
 
     # 判斷資料是否已抓過
     record = (
@@ -84,7 +76,7 @@ for content in contents:
         # category=category,
         release_date=release_date,
         download_link=download_link,
-        # description=description,
+        description=description,
         # important_information=important_information,
         # crawler_info=crawler_info,
     )

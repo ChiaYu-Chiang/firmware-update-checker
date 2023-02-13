@@ -7,6 +7,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
 from database import Session, Driver
+import time
+import re
 
 brand = "dell"
 model = "PowerEdge R740"
@@ -18,7 +20,7 @@ options.add_argument("window-size=1920,1080")
 
 # 啟動瀏覽器
 browser = webdriver.Chrome(options=options)
-wait = WebDriverWait(browser, 10)
+wait = WebDriverWait(browser, 30)
 
 # 訪問網頁
 browser.get(
@@ -73,7 +75,7 @@ for button in buttons:
     )
 
     # 取得資料
-    name = tableRow_point.find_element(By.XPATH, "td[2]/div/div[2]").text
+    title = tableRow_point.find_element(By.XPATH, "td[2]/div/div[2]").text
     version = child_point.find_element(By.XPATH, "div[5]/div[1]/p[2]").text
     importance = tableRow_point.find_element(By.XPATH, "td[3]/span").text
     category = tableRow_point.find_element(By.XPATH, "td[4]").text
@@ -83,7 +85,25 @@ for button in buttons:
     ).get_attribute("href")
     description = child_point.find_element(By.XPATH, "div[7]/p[2]").text
     try:
-        important_information = child_point.find_element(By.XPATH, "div[8]/p[2]").text
+        imp_info = child_point.find_element(By.XPATH, "div[8]/p[2]")
+        imp_info_innerHTML = imp_info.get_attribute("innerHTML").replace("<br>", "\n")
+        important_information = (
+            re.sub(r"<.*?>", "", imp_info_innerHTML)
+            .replace("&nbsp;&nbsp;閱讀更多", "")
+            .strip()
+        )
+        # 若為 loading 則等待後再次執行
+        if important_information == " Loading...":
+            time.sleep(2)
+            imp_info = child_point.find_element(By.XPATH, "div[8]/p[2]")
+            imp_info_innerHTML = imp_info.get_attribute("innerHTML").replace(
+                "<br>", "\n"
+            )
+            important_information = (
+                re.sub(r"<.*?>", "", imp_info_innerHTML)
+                .replace("&nbsp;&nbsp;閱讀更多", "")
+                .strip()
+            )
     except NoSuchElementException:
         important_information = None
 
@@ -91,11 +111,11 @@ for button in buttons:
     release_date = datetime.strptime(release_date, "%d %b %Y").date()
 
     # 寫入至資料庫
-    print(f"new data: {name}")
+    print(f"new data: {title}")
     driver = Driver(
         brand=brand,
         model=model,
-        name=name,
+        title=title,
         version=version,
         importance=importance,
         category=category,
