@@ -10,6 +10,8 @@ from database import Session, Driver
 
 brand = "ibm"
 model = "System x3250 M3"
+url_model = "systemx/selectFixes?parent=System%20x3250%20M3&product=ibm/systemx/4251"
+url_model_brocade = url_model + "_brocade"
 
 # 設定 webdriver 參數
 options = Options()
@@ -20,10 +22,15 @@ options.add_argument("window-size=1920,1080")
 browser = webdriver.Chrome(options=options)
 wait = WebDriverWait(browser, 30)
 
-urls = [
-    "https://www.ibm.com/support/fixcentral/systemx/selectFixes?parent=System%20x3250%20M3&product=ibm/systemx/4251_brocade&&platform=All&function=all",
-    "https://www.ibm.com/support/fixcentral/systemx/selectFixes?parent=System%20x3250%20M3&product=ibm/systemx/4251&&platform=All&function=all",
-]
+baseurl = "https://www.ibm.com/support/fixcentral/{}&&platform=All&function=all".format(
+    url_model
+)
+baseurl_brocade = (
+    "https://www.ibm.com/support/fixcentral/{}&&platform=All&function=all".format(
+        url_model_brocade
+    )
+)
+urls = [baseurl, baseurl_brocade]
 
 for url in urls:
     # 訪問網頁
