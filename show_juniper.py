@@ -10,6 +10,7 @@ from database import Session, Driver
 
 brand = "juniper"
 model = "EX2200"
+url_model = "ex2200"
 
 # 設定 webdriver 參數
 options = Options()
@@ -21,7 +22,8 @@ browser = webdriver.Chrome(options=options)
 wait = WebDriverWait(browser, 30)
 
 # 訪問網頁
-browser.get("https://support.juniper.net/support/downloads/?p=ex2200")
+baseurl = "https://support.juniper.net/support/downloads/?p={}".format(url_model)
+browser.get(baseurl)
 
 # 等待元素出現
 element = wait.until(

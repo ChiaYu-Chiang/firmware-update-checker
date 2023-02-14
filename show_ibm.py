@@ -7,14 +7,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
 from database import Session, Driver
-import re
 
 brand = "ibm"
 model = "System x3250 M3"
 
 # 設定 webdriver 參數
 options = Options()
-# options.add_argument("headless")
+options.add_argument("headless")
 options.add_argument("window-size=1920,1080")
 
 # 啟動瀏覽器

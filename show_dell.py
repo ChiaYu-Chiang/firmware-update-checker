@@ -12,6 +12,7 @@ import re
 
 brand = "dell"
 model = "PowerEdge R740"
+url_model = "poweredge-r740"
 
 # 設定 webdriver 參數
 options = Options()
@@ -23,9 +24,12 @@ browser = webdriver.Chrome(options=options)
 wait = WebDriverWait(browser, 30)
 
 # 訪問網頁
-browser.get(
-    "https://www.dell.com/support/home/en-us/product-support/product/poweredge-r740/drivers"
+baseurl = (
+    "https://www.dell.com/support/home/zh-tw/product-support/product/{}/drivers".format(
+        url_model
+    )
 )
+browser.get(baseurl)
 
 # 找到下拉式選單
 element = wait.until(EC.element_to_be_clickable((By.ID, "operating-system")))

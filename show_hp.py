@@ -11,6 +11,7 @@ import time
 
 brand = "hp"
 model = "DL380 G7"
+url_model = "0&l5oid=4091412&cep=on&kmpmoid=4091567"
 
 # 設定 webdriver 參數
 options = Options()
@@ -22,9 +23,10 @@ browser = webdriver.Chrome(options=options)
 wait = WebDriverWait(browser, 30)
 
 # 訪問網頁
-browser.get(
-    "https://support.hpe.com/connect/s/product?language=en_US&kmpmoid=4091567&tab=driversAndSoftware&driversAndSoftwareFilter=8000029"
+baseurl = "https://support.hpe.com/connect/s/product?language=en_US&ismnp={}&tab=driversAndSoftware".format(
+    url_model
 )
+browser.get(baseurl)
 
 # 等待元素出現
 element = wait.until(

@@ -10,6 +10,7 @@ from database import Session, Driver
 
 brand = "gigabyte"
 model = "R182-340"
+url_model = "R182-340-rev-100"
 
 # 設定 webdriver 參數
 options = Options()
@@ -21,9 +22,12 @@ browser = webdriver.Chrome(options=options)
 wait = WebDriverWait(browser, 30)
 
 # 訪問網頁
-browser.get(
-    "https://www.gigabyte.com/tw/Enterprise/Rack-Server/R182-340-rev-100#Support-Firmware"
+baseurl = (
+    "https://www.gigabyte.com/tw/Enterprise/Rack-Server/{}#Support-Firmware".format(
+        url_model
+    )
 )
+browser.get(baseurl)
 
 # 等待資料顯式
 element = wait.until(

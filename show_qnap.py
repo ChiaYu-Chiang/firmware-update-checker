@@ -10,6 +10,7 @@ from database import Session, Driver
 
 brand = "qnap"
 model = "TS-269L"
+url_model = "ts-269l"
 
 # 設定 webdriver 參數
 options = Options()
@@ -21,7 +22,10 @@ browser = webdriver.Chrome(options=options)
 wait = WebDriverWait(browser, 30)
 
 # 訪問網頁
-browser.get("https://www.qnap.com/zh-tw/download?model=ts-269l&category=firmware")
+baseurl = "https://www.qnap.com/zh-tw/download?model={}&category=firmware".format(
+    url_model
+)
+browser.get(baseurl)
 
 # 等待元素出現
 element = wait.until(
