@@ -1,4 +1,4 @@
 .*
 !.gitignore
 *.sqlite
-__*
+__pycache__
