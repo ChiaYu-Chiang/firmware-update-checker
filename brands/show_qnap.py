@@ -36,7 +36,6 @@ def show_model(model, url_model):
     session = Session()
 
     # 遍歷每組資料
-    print("Start crawling")
     for content in contents:
         # 取得資料
         title = content.find_element(By.XPATH, "td[1]/div").text
@@ -85,6 +84,5 @@ def show_model(model, url_model):
     session.close()
 
     # 等待使用者手動關閉瀏覽器
-    print("Exiting browser")
     # input("Press any key to close the browser...")
     browser.quit()

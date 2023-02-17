@@ -1,48 +1,72 @@
 from common_import import *
 
 
-def show_model(model, url_model):
-    brand = "hp"
-
-    # 設定 webdriver 參數
+def get_detail_page(link):
     options = Options()
     options.add_argument("headless")
     options.add_argument("window-size=1920,1080")
 
-    # 啟動瀏覽器
     browser = webdriver.Chrome(options=options)
     wait = WebDriverWait(browser, 30)
 
-    # 訪問網頁
-    baseurl = "https://support.hpe.com/connect/s/product?language=en_US&ismnp={}&tab=driversAndSoftware".format(
-        url_model
-    )
-    browser.get(baseurl)
+    browser.get(link)
 
-    # 等待元素出現
-    element = wait.until(
-        EC.visibility_of_element_located(
+    text_block = wait.until(
+        EC.presence_of_element_located(
             (
                 By.XPATH,
-                '//*[@id="tab-2"]/slot/c-dce-drivers-and-software/c-dce-table/div/div[4]/div/div[2]/c-dce-pager/nav/div/lightning-combobox/div/lightning-base-combobox',
+                '//*[@id="tab-2"]/slot/lightning-formatted-rich-text/span/span',
             )
         )
     )
 
-    # 點擊選單
-    click_test = WebDriverWait(element, 10).until(
-        EC.element_to_be_clickable((By.XPATH, "div/div[1]/button/span"))
-    )
-    click_test.click()
+    try:
+        description = text_block.find_element(By.XPATH, "ul[1]/li").text
+    except:
+        description = text_block.find_element(By.XPATH, "p[3]").text
 
-    # 點擊選項
-    selection = element.find_element(
-        By.XPATH,
-        "div/div[2]/lightning-base-combobox-item[4]",
-    )
-    selection.click()
+    try:
+        important_information = text_block.find_element(By.XPATH, "ul[2]/li").text
+    except:
+        try:
+            important_information = text_block.find_element(By.XPATH, "p[7]").text
+            if important_information == "&nbsp;":
+                important_information = None
+        except:
+            important_information = text_block.find_element(By.XPATH, "ul").text
 
-    time.sleep(10)
+    browser.quit()
+    return [description, important_information]
+
+
+def use_me(wait, browser, brand, model):
+    try:
+        # 等待元素出現
+        element = wait.until(
+            EC.visibility_of_element_located(
+                (
+                    By.XPATH,
+                    '//*[@id="tab-2"]/slot/c-dce-drivers-and-software/c-dce-table/div/div[4]/div/div[2]/c-dce-pager/nav/div/lightning-combobox/div/lightning-base-combobox',
+                )
+            )
+        )
+
+        # 點擊選單
+        click_test = WebDriverWait(element, 30).until(
+            EC.element_to_be_clickable((By.XPATH, "div/div[1]/button/span"))
+        )
+        click_test.click()
+
+        # 點擊選項
+        selection = element.find_element(
+            By.XPATH,
+            "div/div[2]/lightning-base-combobox-item[4]",
+        )
+        selection.click()
+
+        time.sleep(10)
+    except:
+        pass
 
     # 定位目標元素
     contents = browser.find_elements(
@@ -53,45 +77,7 @@ def show_model(model, url_model):
     # 創建 Session 實例
     session = Session()
 
-    def get_detail_page(link):
-        options = Options()
-        options.add_argument("headless")
-        options.add_argument("window-size=1920,1080")
-
-        browser = webdriver.Chrome(options=options)
-        wait = WebDriverWait(browser, 30)
-
-        browser.get(link)
-
-        text_block = wait.until(
-            EC.presence_of_element_located(
-                (
-                    By.XPATH,
-                    '//*[@id="tab-2"]/slot/lightning-formatted-rich-text/span/span',
-                )
-            )
-        )
-
-        try:
-            description = text_block.find_element(By.XPATH, "ul[1]/li").text
-        except:
-            description = text_block.find_element(By.XPATH, "p[3]").text
-
-        try:
-            important_information = text_block.find_element(By.XPATH, "ul[2]/li").text
-        except:
-            try:
-                important_information = text_block.find_element(By.XPATH, "p[7]").text
-                if important_information == "&nbsp;":
-                    important_information = None
-            except:
-                important_information = text_block.find_element(By.XPATH, "ul").text
-
-        browser.quit()
-        return [description, important_information]
-
     # 遍歷每組資料
-    print("Start crawling")
     for content in contents:
         # 取得資料
         title = content.find_element(
@@ -157,7 +143,50 @@ def show_model(model, url_model):
     # 關閉連線
     session.close()
 
+
+def show_model(model, url_model):
+    brand = "hp"
+
+    # 設定 webdriver 參數
+    options = Options()
+    options.add_argument("headless")
+    options.add_argument("window-size=1920,1080")
+
+    # 啟動瀏覽器
+    browser = webdriver.Chrome(options=options)
+    wait = WebDriverWait(browser, 30)
+
+    # 訪問網頁
+    baseurl = "https://support.hpe.com/connect/s/product?language=en_US&ismnp={}&tab=driversAndSoftware".format(
+        url_model
+    )
+    browser.get(baseurl)
+
+    filter_list = wait.until(
+        EC.visibility_of_element_located(
+            (By.XPATH, '//*[@id="tab-2"]/slot/c-dce-drivers-and-software/div[1]')
+        )
+    )
+    filter_firmware = filter_list.find_elements(
+        By.XPATH, 'c-dce-button-filter/div/button[@title="Firmware"]'
+    )
+    filter_bios = filter_list.find_elements(
+        By.XPATH, 'c-dce-button-filter/div/button[@title="BIOS"]'
+    )
+
+    if filter_firmware:
+        filter_firmware[0].click()
+        use_me(wait=wait, browser=browser, brand=brand, model=model)
+    if filter_bios:
+        filter_bios[0].click()
+        use_me(wait=wait, browser=browser, brand=brand, model=model)
+
     # 等待使用者手動關閉瀏覽器
-    print("Exiting browser")
     # input("Press any key to close the browser...")
     browser.quit()
+
+
+if __name__ == "__main__":
+    model = "DL380 G7"
+    url_model = "0&l5oid=4091412&cep=on&kmpmoid=4091567"
+    show_model(model, url_model)

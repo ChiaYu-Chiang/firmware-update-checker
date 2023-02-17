@@ -6,28 +6,29 @@ This repository crawler for users to query the updates of each brand's product
 
 1. Clone this repository.
 * clone with SSH
-```cmd
+```shell
 git clone git@github.com:ChiaYu-Chiang/firmware-update-checker.git
 ```
 * clone with HTTPS
-```cmd
+```shell
 git clone https://github.com/ChiaYu-Chiang/firmware-update-checker.git
 ```
 2. Enable virtual environment.
-```cmd
+```shell
 cd firmware-update-checker\
-python -m venv .venv
 ```
 * windows
-```cmd
+```shell
+python -m venv .venv
 .venv\Scripts\activate
 ```
 * linux
-```cmd
+```shell
+python3 -m venv .venv
 source .venv/bin/activate
 ```
 3. Install required packages.
-```cmd
+```shell
 pip install -r requirements.txt
 ```
 4. Prepare your webdriver.
@@ -66,8 +67,14 @@ pip install -r requirements.txt
 ]
 ```
 2. Execute program.
-```cmd
-export line_notify_access_token=your_token
+* windows
+```shell
+set line_notify_access_token=your_token
 python crawl.py
+```
+* linux
+```shell
+export line_notify_access_token=your_token
+python3 crawl.py
 ```
 3. Check the database in "brands/databases/".

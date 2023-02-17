@@ -6,7 +6,7 @@ def show_model(model, url_model):
 
     # 設定 webdriver 參數
     options = Options()
-    options.add_argument("headless")
+    # options.add_argument("headless")
     options.add_argument("window-size=1920,1080")
 
     # 啟動瀏覽器
@@ -19,18 +19,42 @@ def show_model(model, url_model):
     )
     browser.get(baseurl)
 
-    # 找到下拉式選單
-    element = wait.until(EC.element_to_be_clickable((By.ID, "operating-system")))
+    os_selector = wait.until(
+        EC.visibility_of_element_located(
+            (By.XPATH, '//*[@id="driverFilter"]/div[2]/label')
+        )
+    ).get_attribute("for")
+    if os_selector != "no-os":
+        # 找到下拉式選單
+        element = wait.until(EC.element_to_be_clickable((By.ID, "operating-system")))
 
-    # 選擇 option value="NAA" 的選項
-    select = Select(element)
-    select.select_by_value("NAA")
+        # 選擇 option value="NAA" 的選項
+        select = Select(element)
+        select.select_by_value("NAA")
 
-    # 等待按鈕元素出現
-    show_all_button = wait.until(EC.element_to_be_clickable((By.ID, "paginationRow")))
+    filter_button = wait.until(EC.element_to_be_clickable((By.ID, "ddl-dwldtype-btn")))
+    filter_button.click()
+    try:
+        # 勾選 BIOS 和韌體的 checkbox
+        filter_BIOS = browser.find_element(By.XPATH, '//*[@id="ddl-dwldtype_BIOS"]')
+        filter_FRMW = browser.find_element(By.XPATH, '//*[@id="ddl-dwldtype_FRMW"]')
+        browser.execute_script("arguments[0].click();", filter_BIOS)
+        browser.execute_script("arguments[0].click();", filter_FRMW)
+    except:
+        pass
+    # 點擊下載類型的按鈕以收起選項
+    filter_button.click()
 
-    # 點擊按鈕
-    show_all_button.click()
+    try:
+        # 等待按鈕元素出現
+        show_all_button = wait.until(
+            EC.element_to_be_clickable((By.ID, "paginationRow"))
+        )
+
+        # 點擊按鈕
+        show_all_button.click()
+    except:
+        None
 
     # 定位按鈕元素
     buttons = browser.find_elements(By.NAME, "btnDriverListToggle")
@@ -39,7 +63,6 @@ def show_model(model, url_model):
     session = Session()
 
     # 點擊每個按鈕
-    print("Start crawling")
     for button in buttons:
         tr_id = button.find_element(By.XPATH, "../..").get_attribute("id").split("_")[1]
 
@@ -126,6 +149,11 @@ def show_model(model, url_model):
     session.close()
 
     # 等待使用者手動關閉瀏覽器
-    print("Exiting browser")
     # input("Press any key to close the browser...")
     browser.quit()
+
+
+if __name__ == "__main__":
+    model = "5524 switch"
+    url_model = "powerconnect-5524"
+    show_model(model, url_model)

@@ -30,6 +30,32 @@ def show_model(model, url_model):
         # 訪問網頁
         browser.get(url)
 
+        # 選擇 Firmware Update
+        filter_area = wait.until(
+            EC.visibility_of_element_located(
+                (By.XPATH, '//*[@id="ibm-content-main"]/div[1]/div[2]/div[3]/div')
+            )
+        )
+        try:
+            filter = WebDriverWait(filter_area, 30).until(
+                EC.element_to_be_clickable(
+                    (By.XPATH, "div/form/div[2]/div[1]/div/p[7]")
+                )
+            )
+            filter.click()
+            submit = filter_area.find_element(By.XPATH, "div/form/p[5]/button")
+            submit.click()
+        except:
+            print("no firmware update found")
+            pass
+
+        # 等待元素消失
+        wait.until(
+            EC.invisibility_of_element_located(
+                (By.XPATH, '//*[@id="ibm-overlaywidget-fc-filter-overlay"]')
+            )
+        )
+
         # 等待元素出現
         element = wait.until(
             EC.visibility_of_element_located(
@@ -47,7 +73,6 @@ def show_model(model, url_model):
         session = Session()
 
         # 遍歷每組資料
-        print("Start crawling")
         for content in contents:
             element = content.find_element(
                 By.XPATH,
@@ -116,6 +141,13 @@ def show_model(model, url_model):
         session.close()
 
     # 等待使用者手動關閉瀏覽器
-    print("Exiting browser")
     # input("Press any key to close the browser...")
     browser.quit()
+
+
+if __name__ == "__main__":
+    model = "x3250M3_test"
+    url_model = (
+        "systemx/selectFixes?parent=System%20x3250%20M3&product=ibm/systemx/4251"
+    )
+    show_model(model, url_model)

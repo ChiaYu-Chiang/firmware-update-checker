@@ -160,6 +160,10 @@
                 "url_model": "poweredge-r740"
             },
             {
+                "model": "PowerEdge R740xd",
+                "url_model": "poweredge-r740xd"
+            },
+            {
                 "model": "R740XD vSAN Ready Node",
                 "url_model": "vsan-ready-node-r740xd"
             },
@@ -190,15 +194,6 @@
             {
                 "model": "Unity 480F",
                 "url_model": "unity-480f"
-            }
-        ]
-    },
-    {
-        "brand": "dell emc ecs ex300",
-        "models": [
-            {
-                "model": "ECSv3_R740XD",
-                "url_model": ""
             }
         ]
     },
