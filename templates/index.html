@@ -1,115 +1,150 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Drivers</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.3/css/bootstrap.min.css">
-</head>
 
-<body>
-  <div class="container py-5">
-    <h1>Drivers</h1>
-    <div class="row mt-4">
-      <div class="col-lg-3">
-        <div class="mb-3">
-          <label for="brand" class="form-label">Brand:</label>
-          <select class="form-select" name="brand" id="brand">
-            <option value="All" {% if not brand %}selected{% endif %}>-- All --</option>
-            {% for brand in brands %}
-            <option value="{{ brand[0] }}" {% if brand[0]==brand %}selected{% endif %}>{{ brand[0] }}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="mb-3">
-          <label for="model" class="form-label">Model:</label>
-          <select class="form-select" name="model" id="model">
-            <option value="" {% if not model %}selected{% endif %} data-brand="All">-- All --</option>
-            {% for model in models %}
-            {% if not brand or model[1] == brand %}
-            <option value="{{ model[0] }}" {% if model[0]==model %}selected{% endif %} data-brand="{{ model[1] }}">{{
-              model[0] }}
-            </option>
-            {% endif %}
-            {% endfor %}
-          </select>
-        </div>
+{% block content %}
+<div class="container py-5">
+  <div class="col">
+    <div class="row">
+      <div class="mb-3">
+        <label for="brand" class="form-label">Brand:</label>
+        <select class="form-select" name="brand" id="brand">
+          <option value="All" {% if not brand %}selected{% endif %}>-- All --</option>
+          {% for brand in brands %}
+          <option value="{{ brand[0] }}" {% if brand[0]==brand %}selected{% endif %}>{{ brand[0] }}</option>
+          {% endfor %}
+        </select>
       </div>
-      <div class="col-lg-9">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Brand</th>
-              <th>Model</th>
-              <th>Title</th>
-              <th>Version</th>
-              <th>Importance</th>
-              <th>Category</th>
-              <th>Release Date</th>
-              <th>Download Link</th>
-              <th>Description</th>
-              <th>Important Information</th>
-            </tr>
-          </thead>
-          <tbody id="drivers-table">
-            {% for driver in drivers %}
-            <tr>
-              <td>{{ driver.brand }}</td>
-              <td>{{ driver.model }}</td>
-              <td>{{ driver.title }}</td>
-              <td>{{ driver.version }}</td>
-              <td>{{ driver.importance }}</td>
-              <td>{{ driver.category }}</td>
-              <td>{{ driver.release_date.strftime('%Y-%m-%d') }}</td>
-              <td><a href="{{ driver.download_link }}">Download</a></td>
-              <td>{{ driver.description }}</td>
-              <td>{{ driver.important_information }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+      <div class="mb-3">
+        <label for="model" class="form-label">Model:</label>
+        <select class="form-select" name="model" id="model">
+          <option value="" {% if not model %}selected{% endif %} data-brand="All">-- All --</option>
+          {% for model in models %}
+          {% if not brand or model[1] == brand %}
+          <option value="{{ model[0] }}" {% if model[0]==model %}selected{% endif %} data-brand="{{ model[1] }}">{{
+            model[0] }}
+          </option>
+          {% endif %}
+          {% endfor %}
+        </select>
       </div>
     </div>
+    <div class="row">
+      <table class="table table-responsive table-bordered table-hover">
+        <thead class="text-nowrap">
+          <tr>
+            <th onclick="sortTable(0)" role="button">Brand</th>
+            <th onclick="sortTable(1)" role="button">Model</th>
+            <th onclick="sortTable(2)" role="button">Title</th>
+            <th onclick="sortTable(3)" role="button">Version</th>
+            <th onclick="sortTable(4)" role="button">Importance</th>
+            <th onclick="sortTable(5)" role="button">Category</th>
+            <th onclick="sortTable(6)" role="button">Release Date</th>
+            <th onclick="sortTable(7)" role="button">Download Link</th>
+            <th onclick="sortTable(8)" role="button">Description</th>
+            <th onclick="sortTable(9)" role="button">Important Information</th>
+          </tr>
+        </thead>
+        <tbody id="drivers-table">
+          {% for driver in drivers %}
+          <tr>
+            <td>{{ driver.brand }}</td>
+            <td>{{ driver.model }}</td>
+            <td>{{ driver.title }}</td>
+            <td>{{ driver.version }}</td>
+            <td>{{ driver.importance }}</td>
+            <td>{{ driver.category }}</td>
+            <td>{{ driver.release_date.strftime('%Y-%m-%d') }}</td>
+            <td><a href="{{ driver.download_link }}">Download</a></td>
+            <td>{{ driver.description }}</td>
+            <td>{{ driver.important_information }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
+</div>
+{% endblock %}
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script>
-    $(document).ready(function () {
-      // Filter drivers based on brand and model selection
-      $('#brand, #model').change(function () {
-        var brand = $('#brand').val();
-        var model = $('#model').val();
-        var url = '/';
-        if (brand) {
-          url += '?brand=' + encodeURIComponent(brand);
-        }
-        if (model) {
-          url += (brand ? '&' : '?') + 'model=' + encodeURIComponent(model);
-        }
-        $.get(url, function (data) {
-          $('#drivers-table').html($(data).find('#drivers-table').html());
-        });
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  $(document).ready(function () {
+    // Filter drivers based on brand and model selection
+    $('#brand, #model').change(function () {
+      var brand = $('#brand').val();
+      var model = $('#model').val();
+      var url = '/';
+      if (brand) {
+        url += '?brand=' + encodeURIComponent(brand);
+      }
+      if (model) {
+        url += (brand ? '&' : '?') + 'model=' + encodeURIComponent(model);
+      }
+      $.get(url, function (data) {
+        $('#drivers-table').html($(data).find('#drivers-table').html());
       });
     });
-  </script>
-  <script>
-    $(function () {
-      // 当品牌下拉列表改变时，更新型号下拉列表
-      $("#brand").change(function () {
-        var brand = $(this).val();
-        if (brand === "All") {
-          // 如果选择“全部”，则显示所有型号
-          $("#model option").show();
+  });
+</script>
+<script>
+  $(function () {
+    // 当品牌下拉列表改变时，更新型号下拉列表
+    $("#brand").change(function () {
+      var brand = $(this).val();
+      if (brand === "All") {
+        // 如果选择“全部”，则显示所有型号
+        $("#model option").show();
+      } else {
+        // 否则只显示该品牌的型号
+        $("#model option").hide();
+        $("#model option[value='']").show();
+        $("#model option[data-brand='" + brand + "']").show();
+      };
+    });
+  });
+</script>
+{#
+<script>
+  function sortTable(column) {
+    var url = "/";
+    url += "?sort=" + encodeURIComponent(column);
+    $.get(url, function (data) {
+      $("#drivers-table").html($(data).find("#drivers-table").html());
+    });
+  }
+</script> #}
+<script>
+  var sortDirection = 1;
+  function sortTable(columnIndex) {
+    var table, rows, switching, i, x, y, shouldSwitch;
+    table = document.getElementsByTagName("table")[0];
+    switching = true;
+    while (switching) {
+      switching = false;
+      rows = table.getElementsByTagName("tr");
+      for (i = 1; i < (rows.length - 1); i++) {
+        shouldSwitch = false;
+        x = rows[i].getElementsByTagName("td")[columnIndex];
+        y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+        if (sortDirection == 1) {
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            shouldSwitch = true;
+            break;
+          }
         } else {
-          // 否则只显示该品牌的型号
-          $("#model option").hide();
-          $("#model option[value='']").show();
-          $("#model option[data-brand='" + brand + "']").show();
-        };
-      });
-    });
-  </script>
-</body>
-
-</html>
+          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            shouldSwitch = true;
+            break;
+          }
+        }
+      }
+      if (shouldSwitch) {
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+      }
+    }
+    sortDirection = 1 - sortDirection; // 切換排序方向
+  }
+</script>
+{% endblock %}

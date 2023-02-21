@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request
+from flask_bootstrap import Bootstrap
 from sqlalchemy import create_engine, and_
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.expression import func
 from brands.databases.database import Driver
 
 app = Flask(__name__)
+bootstrap = Bootstrap(app)
 
 # 建立資料庫連線
 engine = create_engine("sqlite:///brands/databases/test.sqlite")
@@ -20,7 +22,7 @@ def index():
     # 建立資料庫session
     session = Session()
 
-    # 建立查詢物件，使用order_by方法排序
+    # 建立查詢物件
     query = session.query(Driver).order_by(Driver.release_date.desc())
 
     # 篩選品牌

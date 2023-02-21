@@ -1,0 +1,88 @@
+{% from 'bootstrap5/nav.html' import render_nav_item %}
+{% from 'bootstrap5/utils.html' import render_icon %}
+<!doctype html>
+<html lang="zh-TW" class="h-100">
+
+<head>
+    {% block head %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% block styles %}
+    <!-- Bootstrap CSS -->
+    {{ bootstrap.load_css() }}
+    {% endblock %}
+
+    <title>firmware-crawler{% block title %}{% endblock %}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='Chief-new-logo_shortcut-icon.png') }}"
+        type="image/x-icon">
+    {% endblock %}
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top mb-3">
+        <div class="container-fluid">
+            <div class="navbar-brand">
+                {{ render_nav_item('index', 'Firmware Info') }}
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        {{ render_nav_item('index', 'HOME') }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    {% block content %}{% endblock %}
+
+    <footer class="footer mt-auto text-center text-lg-start bg-light">
+        <div class="container p-4">
+            <div class="row my-auto justify-content-around">
+                <div class="col-lg-3 col-md-6 mb-md-0">
+                    <div class="d-flex align-items-center justify-content-center mx-auto"
+                        style="width: 150px; height: 100px;">
+                        <a href="https://www.chief.com.tw/">
+                            <img src={{ url_for('static', filename='Chief-new-logo_Horizontal_latest-ver.png' ) }}
+                                height="70" alt="" loading="lazy" /></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-md-0">
+                    <h5 class="text-uppercase mb-4">Contact</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <p>是方電訊股份有限公司</p>
+                            <p>台北市114062內湖區瑞光路68號2樓</p>
+                        </li>
+                        <li>
+                            <p><a href="tel: 070-1017-1767" class="text-black">070-1017-1767</a></p>
+                        </li>
+                        <li>
+                            <p><a href="mailto: brian_chiang@chief.com.tw"
+                                    class="text-black">brian_chiang@chief.com.tw</a></p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="text-center p-3 bg-white">
+            Copyright © 2023 All rights reserved | Made by Brian Chiang</a>
+        </div>
+    </footer>
+
+    {% block scripts %}
+    <!-- Optional JavaScript -->
+    {{ bootstrap.load_js() }}
+    {% endblock %}
+</body>
+
+</html>
