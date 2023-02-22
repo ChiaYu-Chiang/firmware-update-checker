@@ -31,7 +31,7 @@ class Driver(Base):
 
 
 # 定義連接引擎
-engine = create_engine("sqlite:///databases/firmwares.sqlite")
+engine = create_engine("sqlite:///brands/databases/firmwares.sqlite")
 test = create_engine("sqlite:///brands/databases/test.sqlite")
 # 建立資料表
 Base.metadata.create_all(test)
@@ -42,18 +42,15 @@ Session = sessionmaker(bind=test)
 
 # 設定 email
 def send_email_notification(message):
-    email = "you@example.com"
-    password = "your_email_password"
-    to_email = "recipient@example.com"
+    email = "firmware_crawler@chief.com.tw"
+    to_email = "brian_chiang@chief.com.tw"
 
     msg = MIMEText(message)
     msg["Subject"] = "New data committed"
     msg["From"] = email
     msg["To"] = to_email
 
-    server = smtplib.SMTP("smtp.gmail.com", 587)
-    server.starttls()
-    server.login(email, password)
+    server = smtplib.SMTP("localhost")
     server.send_message(msg)
     server.quit()
 

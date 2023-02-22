@@ -39,6 +39,9 @@ def show_model(model, url_model):
         title = content.find_element(By.XPATH, "mat-cell[1]/span").text
         version = content.find_element(By.XPATH, "mat-cell[2]").text
         release_date = content.find_element(By.XPATH, "mat-cell[3]").text
+        download_link = content.find_element(
+            By.XPATH, "mat-cell[4]/a[1]"
+        ).get_attribute("href")
 
         # 資料格式處理
         release_date = datetime.strptime(release_date, "%d %b %Y").date()
@@ -64,7 +67,7 @@ def show_model(model, url_model):
             # importance=importance,
             # category=category,
             release_date=release_date,
-            # download_link=download_link,
+            download_link=download_link,
             # description=description,
             # important_information=important_information,
             # crawler_info=crawler_info,
@@ -78,3 +81,9 @@ def show_model(model, url_model):
     # 等待使用者手動關閉瀏覽器
     # input("Press any key to close the browser...")
     browser.quit()
+
+
+if __name__ == "__main__":
+    model = "EX2200"
+    url_model = "ex2200"
+    show_model(model, url_model)

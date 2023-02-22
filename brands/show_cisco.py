@@ -41,6 +41,7 @@ def show_model(model, url_model):
             By.XPATH, '//*[@id="release-version-title"]'
         ).text
         release_date = content.find_element(By.XPATH, "div/div[2]").text
+        download_link = baseurl
         crawler_info = content.find_element(By.XPATH, "div/div[1]/div[2]/span").text
 
         # 資料格式處理
@@ -67,7 +68,7 @@ def show_model(model, url_model):
             # importance=importance,
             # category=category,
             release_date=release_date,
-            # download_link=download_link,
+            download_link=download_link,
             # description=description,
             # important_information=important_information,
             crawler_info=crawler_info,
@@ -81,3 +82,9 @@ def show_model(model, url_model):
     # 等待使用者手動關閉瀏覽器
     # input("Press any key to close the browser...")
     browser.quit()
+
+
+if __name__ == "__main__":
+    model = "WS-C2960S-24TS-S"
+    url_model = "282867583/type/280805680"
+    show_model(model, url_model)

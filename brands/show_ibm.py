@@ -98,6 +98,9 @@ def show_model(model, url_model):
                 .strip()
             )
             release_date = content.find_element(By.XPATH, "td[3]").text
+            download_link = content.find_element(By.XPATH, "td[2]/p/a").get_attribute(
+                "href"
+            )
             description = (
                 element.find_element(By.XPATH, "p[5]")
                 .text.replace("Abstract:", "")
@@ -129,7 +132,7 @@ def show_model(model, url_model):
                 importance=importance,
                 category=category,
                 release_date=release_date,
-                # download_link=download_link,
+                download_link=download_link,
                 description=description,
                 important_information=important_information,
                 # crawler_info=crawler_info,
@@ -146,7 +149,7 @@ def show_model(model, url_model):
 
 
 if __name__ == "__main__":
-    model = "x3250M3_test"
+    model = "x3250M3"
     url_model = (
         "systemx/selectFixes?parent=System%20x3250%20M3&product=ibm/systemx/4251"
     )
