@@ -28,10 +28,12 @@ def show_model(model, url_model):
     if os_selector != "no-os":
         # 找到下拉式選單
         element = wait.until(EC.element_to_be_clickable((By.ID, "operating-system")))
-
-        # 選擇 option value="NAA" 的選項
-        select = Select(element)
-        select.select_by_value("NAA")
+        try:
+            # 選擇 option value="NAA" 的選項
+            select = Select(element)
+            select.select_by_value("NAA")
+        except:
+            pass
 
     filter_button = wait.until(EC.element_to_be_clickable((By.ID, "ddl-dwldtype-btn")))
     filter_button.click()
