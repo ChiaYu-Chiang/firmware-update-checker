@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.join(root_path, "brands"))
 
 if __name__ == "__main__":
     # 讀取 models.json 檔案
-    with open("models.json", "r") as f:
+    with open("models.json", "r", encoding="utf-8") as f:
         brands = json.load(f)
 
     error_models = []

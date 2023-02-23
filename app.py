@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request
-from flask_bootstrap import Bootstrap
+from flask_bootstrap import Bootstrap5
 from sqlalchemy import create_engine, and_
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.expression import func
 from brands.databases.database import Driver
 
 app = Flask(__name__)
-bootstrap = Bootstrap(app)
+bootstrap = Bootstrap5(app)
 
 # 建立資料庫連線
 engine = create_engine("sqlite:///brands/databases/test.sqlite")

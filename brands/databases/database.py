@@ -71,7 +71,7 @@ def receive_after_commit(session):
 
     # 透過 line notify 發送
     headers = {
-        "Authorization": "Bearer " + line_notify_access_token,
+        "Authorization": "Bearer " + str(line_notify_access_token),
         "Content-Type": "application/x-www-form-urlencoded",
     }
     params = {"message": message}

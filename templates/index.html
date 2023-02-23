@@ -59,7 +59,7 @@
             <td>{{ driver.release_date.strftime('%Y-%m-%d') }}</td>
             <td>{% if driver.download_link %}<a href="{{ driver.download_link }}">Download</a>{% endif %}</td>
             <td>{% if driver.description %}
-              <a class="btn btn-primary" data-toggle="collapse" href="#collapse_desc{{ driver.id }}" role="button"
+              <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapse_desc{{ driver.id }}" role="button"
                 aria-expanded="false" aria-controls="collapse{{ driver.id }}">
                 more
               </a>
