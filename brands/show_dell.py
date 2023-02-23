@@ -91,16 +91,16 @@ def show_model(model, url_model):
 
         # 取得資料
         title = tableRow_point.find_element(By.XPATH, "td[2]/div/div[2]").text
-        version = child_point.find_element(By.XPATH, "div[5]/div[1]/p[2]").text
+        version = child_point.find_element(By.XPATH, "div[5]/div[1]/p").text
         importance = tableRow_point.find_element(By.XPATH, "td[3]/span").text
         category = tableRow_point.find_element(By.XPATH, "td[4]").text
         release_date = tableRow_point.find_element(By.XPATH, "td[5]").text
         download_link = tableRow_point.find_element(
             By.XPATH, "td[6]/div/a[2]"
         ).get_attribute("href")
-        description = child_point.find_element(By.XPATH, "div[7]/p[2]").text
+        description = child_point.find_element(By.XPATH, "div[7]/p").text
         try:
-            imp_info = child_point.find_element(By.XPATH, "div[8]/p[2]")
+            imp_info = child_point.find_element(By.XPATH, "div[8]/p")
             imp_info_innerHTML = imp_info.get_attribute("innerHTML").replace(
                 "<br>", "\n"
             )
@@ -154,6 +154,6 @@ def show_model(model, url_model):
 
 
 if __name__ == "__main__":
-    model = "5524 switch"
-    url_model = "powerconnect-5524"
+    model = "1850"
+    url_model = "poweredge-1850"
     show_model(model, url_model)

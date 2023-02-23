@@ -7,7 +7,7 @@ def show_model(model, url_model):
 
     # 設定 webdriver 參數
     options = Options()
-    options.add_argument("headless")
+    # options.add_argument("headless")
     options.add_argument("window-size=1920,1080")
 
     # 啟動瀏覽器
@@ -151,6 +151,6 @@ def show_model(model, url_model):
 if __name__ == "__main__":
     model = "x3250M3"
     url_model = (
-        "systemx/selectFixes?parent=System%20x3250%20M3&product=ibm/systemx/4251"
+        "systemx/selectFixes?parent=System%20x3250%20M3&product=ibm/systemx/4252"
     )
     show_model(model, url_model)
