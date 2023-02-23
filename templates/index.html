@@ -7,8 +7,8 @@
 {% block content %}
 <div class="container py-5">
   <div class="col">
-    <div class="row">
-      <div class="mb-3">
+    <div class="row mb-3">
+      <div class="col">
         <label for="brand" class="form-label">Brand:</label>
         <select class="form-select" name="brand" id="brand">
           <option value="All" {% if not brand %}selected{% endif %}>-- All --</option>
@@ -17,7 +17,7 @@
           {% endfor %}
         </select>
       </div>
-      <div class="mb-3">
+      <div class="col">
         <label for="model" class="form-label">Model:</label>
         <select class="form-select" name="model" id="model">
           <option value="" {% if not model %}selected{% endif %} data-brand="All">-- All --</option>
@@ -70,7 +70,7 @@
               </div>
               {% endif %}
             </td>
-            <td>{% if driver.important_information %}<a class="btn btn-primary" data-toggle="collapse"
+            <td>{% if driver.important_information %}<a class="btn btn-primary" data-bs-toggle="collapse"
                 href="#collapse_info{{ driver.id }}" role="button" aria-expanded="false"
                 aria-controls="collapse{{ driver.id }}">
                 more
