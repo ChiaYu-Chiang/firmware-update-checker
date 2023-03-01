@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap5
-from sqlalchemy import create_engine, and_
+from sqlalchemy import create_engine, and_, or_
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.expression import func
 from brands.databases.database import Driver
@@ -18,6 +18,7 @@ def index():
     # 取得篩選條件
     brand = request.args.get("brand", default="", type=str)
     model = request.args.get("model", default="", type=str)
+    search = request.args.get("search", default="", type=str)
     importance = request.args.get("importance", default="", type=str)
 
     # 建立資料庫session
@@ -40,6 +41,16 @@ def index():
             query = query.filter(Driver.importance == None)
         else:
             query = query.filter(Driver.importance == importance)
+
+    # 篩選標題、描述、重要資訊
+    if search:
+        query = query.filter(
+            or_(
+                Driver.title.ilike(f"%{search}%"),
+                Driver.description.ilike(f"%{search}%"),
+                Driver.important_information.ilike(f"%{search}%"),
+            )
+        )
 
     # 取得結果
     drivers = query.all()
@@ -66,6 +77,7 @@ def index():
         brand=brand,
         model=model,
         importance=importance,
+        search=search,
     )
 
 
