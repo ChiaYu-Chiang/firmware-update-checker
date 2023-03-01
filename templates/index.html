@@ -33,7 +33,7 @@
       <div class="col">
         <label for="importance" class="form-label">Importance:</label>
         <select class="form-select" name="importance" id="importance">
-          <option value="All" {% if not importance %}selected{% endif %}>-- All --</option>
+          <option value="" {% if not importance %}selected{% endif %}>-- All --</option>
           {% for importance in importances %}
           <option value="{{ importance[0] }}" {% if importance[0]==importance %}selected{% endif %}>{{ importance[0] }}
           </option>

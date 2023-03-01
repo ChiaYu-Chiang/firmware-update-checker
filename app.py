@@ -35,8 +35,11 @@ def index():
         query = query.filter(Driver.model == model)
 
     # 篩選重要性
-    if importance:
-        query = query.filter(Driver.importance == importance)
+    if importance and importance != "All":
+        if importance == "None":
+            query = query.filter(Driver.importance == None)
+        else:
+            query = query.filter(Driver.importance == importance)
 
     # 取得結果
     drivers = query.all()
