@@ -30,6 +30,16 @@
           {% endfor %}
         </select>
       </div>
+      <div class="col">
+        <label for="importance" class="form-label">Importance:</label>
+        <select class="form-select" name="importance" id="importance">
+          <option value="All" {% if not importance %}selected{% endif %}>-- All --</option>
+          {% for importance in importances %}
+          <option value="{{ importance[0] }}" {% if importance[0]==importance %}selected{% endif %}>{{ importance[0] }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
     </div>
     <div class="row table-responsive">
       <table class="table table-bordered">
@@ -95,16 +105,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
   $(document).ready(function () {
-    // Filter drivers based on brand and model selection
-    $('#brand, #model').change(function () {
+    // 過濾型號選單
+    $('#brand, #model, #importance').change(function () {
       var brand = $('#brand').val();
       var model = $('#model').val();
+      var importance = $('#importance').val();
       var url = '/';
       if (brand) {
         url += '?brand=' + encodeURIComponent(brand);
       }
       if (model) {
         url += (brand ? '&' : '?') + 'model=' + encodeURIComponent(model);
+      }
+      if (importance) {
+        url += (brand || model ? '&' : '?') + 'importance=' + encodeURIComponent(importance);
       }
       $.get(url, function (data) {
         $('#drivers-table').html($(data).find('#drivers-table').html());
@@ -114,14 +128,12 @@
 </script>
 <script>
   $(function () {
-    // 当品牌下拉列表改变时，更新型号下拉列表
+    // 當品牌選單改變時，過濾型號選單
     $("#brand").change(function () {
       var brand = $(this).val();
       if (brand === "All") {
-        // 如果选择“全部”，则显示所有型号
         $("#model option").show();
       } else {
-        // 否则只显示该品牌的型号
         $("#model option").hide();
         $("#model option[value='']").show();
         $("#model option[data-brand='" + brand + "']").show();
@@ -131,6 +143,7 @@
 </script>
 <script>
   var sortDirection = 1;
+  // 排序表格
   function sortTable(columnIndex) {
     var table, rows, switching, i, x, y, shouldSwitch;
     table = document.getElementsByTagName("table")[0];

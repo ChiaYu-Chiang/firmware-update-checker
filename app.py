@@ -18,6 +18,7 @@ def index():
     # 取得篩選條件
     brand = request.args.get("brand", default="", type=str)
     model = request.args.get("model", default="", type=str)
+    importance = request.args.get("importance", default="", type=str)
 
     # 建立資料庫session
     session = Session()
@@ -33,6 +34,10 @@ def index():
     if model:
         query = query.filter(Driver.model == model)
 
+    # 篩選重要性
+    if importance:
+        query = query.filter(Driver.importance == importance)
+
     # 取得結果
     drivers = query.all()
 
@@ -41,6 +46,9 @@ def index():
 
     # 取得型號清單
     models = session.query(Driver.model, Driver.brand).distinct().all()
+
+    # 取得重要性清單
+    importances = session.query(Driver.importance).distinct().all()
 
     # 關閉session
     session.close()
@@ -51,8 +59,10 @@ def index():
         drivers=drivers,
         brands=brands,
         models=models,
+        importances=importances,
         brand=brand,
         model=model,
+        importance=importance,
     )
 
 
