@@ -1,6 +1,7 @@
 # firmware-update-checker
 
-This repository crawler for users to query the updates of each brand's product
+This repository crawler for users to query the updates of each brand's product. 
+The update information will be displayed on the web page. 
 
 ## How to install
 
@@ -24,7 +25,7 @@ python -m venv .venv
 ```
 * linux
 ```shell
-python3 -m venv .venv
+python -m venv .venv
 source .venv/bin/activate
 ```
 3. Install required packages.
@@ -75,6 +76,13 @@ python crawl.py
 * linux
 ```shell
 export line_notify_access_token=your_token
-python3 crawl.py
+python crawl.py
 ```
-3. Check the database in "brands/databases/".
+
+3. Start up the web server.
+```shell
+python app.py 
+```
+4. Visit website.
+* [http://127.0.0.1:5000](http://127.0.0.1:5000)
+
