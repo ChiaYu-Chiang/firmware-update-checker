@@ -90,7 +90,7 @@ def show_model(model, url_model):
             )
             importance = (
                 element.find_element(By.XPATH, "p[3]")
-                .text.replace("Severity:", "")
+                .text.split(":")[-1]
                 .replace("&nbsp;", "")
                 .strip()
             )
