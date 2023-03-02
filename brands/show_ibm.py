@@ -7,7 +7,7 @@ def show_model(model, url_model):
 
     # 設定 webdriver 參數
     options = Options()
-    options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    options.add_experimental_option("excludeSwitches", ["enable-logging"])
     options.add_argument("headless")
     options.add_argument("window-size=1920,1080")
 
@@ -91,6 +91,7 @@ def show_model(model, url_model):
             importance = (
                 element.find_element(By.XPATH, "p[3]")
                 .text.replace("Severity:", "")
+                .replace("&nbsp;", "")
                 .strip()
             )
             category = (
@@ -110,6 +111,7 @@ def show_model(model, url_model):
             important_information = content.find_element(By.XPATH, "td[2]/p/a").text
 
             # 資料格式處理
+            importance = None if importance == "" else importance
             release_date = datetime.strptime(release_date, "%Y/%m/%d").date()
 
             # 判斷資料是否已抓過
