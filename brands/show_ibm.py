@@ -84,29 +84,23 @@ def show_model(model, url_model):
             # 取得資料
             title = content.find_element(By.XPATH, "td[2]/p").text.split("\n")[-1]
             version = (
-                element.find_element(By.XPATH, "p[2]")
-                .text.replace("Upgrades to:", "")
-                .strip()
+                element.find_element(By.XPATH, "p[2]").text.split(":", 1)[-1].strip()
             )
             importance = (
                 element.find_element(By.XPATH, "p[3]")
-                .text.split(":")[-1]
+                .text.split(":", 1)[-1]
                 .replace("&nbsp;", "")
                 .strip()
             )
             category = (
-                element.find_element(By.XPATH, "p[4]")
-                .text.replace("Component:", "")
-                .strip()
+                element.find_element(By.XPATH, "p[4]").text.split(":", 1)[-1].strip()
             )
             release_date = content.find_element(By.XPATH, "td[3]").text
             download_link = content.find_element(By.XPATH, "td[2]/p/a").get_attribute(
                 "href"
             )
             description = (
-                element.find_element(By.XPATH, "p[5]")
-                .text.replace("Abstract:", "")
-                .strip()
+                element.find_element(By.XPATH, "p[5]").text.split(":", 1)[-1].strip()
             )
             important_information = content.find_element(By.XPATH, "td[2]/p/a").text
 
