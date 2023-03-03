@@ -81,8 +81,8 @@ python crawl.py
 
 3. Start up the web server.
 ```shell
-python app.py 
+python run_waitress.py
 ```
 4. Visit website.
-* <http://127.0.0.1:5000>
+* <http://127.0.0.1:5001>
 
