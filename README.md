@@ -1,7 +1,7 @@
 # firmware-update-checker
 
 This repository crawler for users to query the updates of each brand's product. 
-The update information will be displayed on the web page. 
+<br>The update information will be displayed on the web page. 
 
 ## How to install
 
@@ -84,5 +84,5 @@ python crawl.py
 python app.py 
 ```
 4. Visit website.
-* [http://127.0.0.1:5000](http://127.0.0.1:5000)
+* <http://127.0.0.1:5000>
 
