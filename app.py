@@ -4,6 +4,9 @@ from sqlalchemy import create_engine, and_, or_
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.expression import func
 from brands.databases.database import Driver
+from logging.handlers import TimedRotatingFileHandler, HTTPHandler
+import logging
+import requests
 
 app = Flask(__name__)
 bootstrap = Bootstrap5(app)
@@ -11,6 +14,45 @@ bootstrap = Bootstrap5(app)
 # 建立資料庫連線
 engine = create_engine("sqlite:///brands/databases/test.sqlite")
 Session = sessionmaker(bind=engine)
+
+# 設定日誌
+logger = logging.getLogger("app")
+logger.setLevel(logging.INFO)
+formatter = logging.Formatter(
+    "%(asctime)s - %(name)-15s - %(levelname)-8s: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+log_handler = TimedRotatingFileHandler("logs/app.log", when="midnight", interval=1)
+log_handler.setLevel(logging.INFO)
+log_handler.setFormatter(formatter)
+logger.addHandler(log_handler)
+
+http_handler = HTTPHandler(host="", url="", method="POST")
+http_handler.setLevel(logging.WARNING)
+
+
+# 日誌紀錄和發送 LINE Notify
+@app.after_request
+def get_status_code(response):
+    user_ip = request.headers["X-Forwarded-For"] or "127.0.0.1"
+    status_code = response.status
+    message = "Request: method={}, status={}, path={}, user_ip={}".format(
+        request.method,
+        status_code,
+        request.path,
+        user_ip,
+    )
+    logger.info(message)
+    if logger.level >= logging.WARNING:
+        headers = {
+            "Authorization": "Bearer " + app.config["line_notify_access_token"],
+            "Content-Type": "application/x-www-form-urlencoded",
+        }
+        params = {"message": message}
+        requests.post(
+            "https://notify-api.line.me/api/notify", headers=headers, params=params
+        )
+    return response
 
 
 @app.route("/")
