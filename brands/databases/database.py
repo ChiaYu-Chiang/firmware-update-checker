@@ -28,6 +28,7 @@ class Driver(Base):
     description = Column(String)
     important_information = Column(String)
     crawler_info = Column(String)
+    model_link = Column(String)
 
 
 # 定義連接引擎

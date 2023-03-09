@@ -3,7 +3,7 @@ from common_import import *
 
 def get_detail_page(link):
     options = Options()
-    options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    options.add_experimental_option("excludeSwitches", ["enable-logging"])
     options.add_argument("headless")
     options.add_argument("window-size=1920,1080")
 
@@ -40,7 +40,7 @@ def get_detail_page(link):
     return [description, important_information]
 
 
-def use_me(wait, browser, brand, model):
+def use_me(wait, browser, brand, model, baseurl):
     try:
         # 等待元素出現
         element = wait.until(
@@ -137,6 +137,7 @@ def use_me(wait, browser, brand, model):
             description=description,
             important_information=important_information,
             # crawler_info=tr_id,
+            model_link=baseurl,
         )
         session.add(driver)
         session.commit()
@@ -150,7 +151,7 @@ def show_model(model, url_model):
 
     # 設定 webdriver 參數
     options = Options()
-    options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    options.add_experimental_option("excludeSwitches", ["enable-logging"])
     options.add_argument("headless")
     options.add_argument("window-size=1920,1080")
 
@@ -178,10 +179,10 @@ def show_model(model, url_model):
 
     if filter_firmware:
         filter_firmware[0].click()
-        use_me(wait=wait, browser=browser, brand=brand, model=model)
+        use_me(wait=wait, browser=browser, brand=brand, model=model, baseurl=baseurl)
     if filter_bios:
         filter_bios[0].click()
-        use_me(wait=wait, browser=browser, brand=brand, model=model)
+        use_me(wait=wait, browser=browser, brand=brand, model=model, baseurl=baseurl)
 
     # 等待使用者手動關閉瀏覽器
     # input("Press any key to close the browser...")

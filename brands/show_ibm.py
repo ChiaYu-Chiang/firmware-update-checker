@@ -107,6 +107,10 @@ def show_model(model, url_model):
             # 資料格式處理
             importance = None if importance == "" else importance
             release_date = datetime.strptime(release_date, "%Y/%m/%d").date()
+            if url == baseurl:
+                baseurl = baseurl
+            else:
+                baseurl = baseurl_brocade
 
             # 判斷資料是否已抓過
             record = (
@@ -133,6 +137,7 @@ def show_model(model, url_model):
                 description=description,
                 important_information=important_information,
                 # crawler_info=crawler_info,
+                model_link=baseurl,
             )
             session.add(driver)
             session.commit()

@@ -96,6 +96,7 @@ def show_model(model, url_model):
                     # description=description,
                     # important_information=important_information,
                     # crawler_info=crawler_info,
+                    model_link=baseurl,
                 )
                 session.add(driver)
                 session.commit()

@@ -34,7 +34,7 @@ http_handler.setLevel(logging.WARNING)
 # 日誌紀錄和發送 LINE Notify
 @app.after_request
 def get_status_code(response):
-    user_ip = request.headers["X-Forwarded-For"] or "127.0.0.1"
+    user_ip = "127.0.0.1"
     status_code = response.status
     message = "Request: method={}, status={}, path={}, user_ip={}".format(
         request.method,

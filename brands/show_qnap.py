@@ -6,7 +6,7 @@ def show_model(model, url_model):
 
     # 設定 webdriver 參數
     options = Options()
-    options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    options.add_experimental_option("excludeSwitches", ["enable-logging"])
     options.add_argument("headless")
     options.add_argument("window-size=1920,1080")
 
@@ -77,6 +77,7 @@ def show_model(model, url_model):
             description=description,
             # important_information=important_information,
             # crawler_info=crawler_info,
+            model_link=baseurl,
         )
         session.add(driver)
         session.commit()
@@ -87,3 +88,9 @@ def show_model(model, url_model):
     # 等待使用者手動關閉瀏覽器
     # input("Press any key to close the browser...")
     browser.quit()
+
+
+if __name__ == "__main__":
+    model = "TS-269L"
+    url_model = "ts-269l"
+    show_model(model, url_model)

@@ -67,7 +67,7 @@
           {% for driver in drivers %}
           <tr>
             <td class="text-nowrap">{{ driver.brand }}</td>
-            <td class="text-nowrap">{{ driver.model }}</td>
+            <td class="text-nowrap"><a href="{{ driver.model_link }}" target="_blank">{{ driver.model }}</a></td>
             <td>{{ driver.title }}</td>
             <td>{{ driver.version }}</td>
             <td>{{ driver.importance }}</td>

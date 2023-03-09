@@ -6,7 +6,7 @@ def show_model(model, url_model):
 
     # 設定 webdriver 參數
     options = Options()
-    options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    options.add_experimental_option("excludeSwitches", ["enable-logging"])
     options.add_argument("headless")
     options.add_argument("window-size=1920,1080")
 
@@ -15,7 +15,7 @@ def show_model(model, url_model):
     wait = WebDriverWait(browser, 30)
 
     # 訪問網頁
-    baseurl = "https://www.dell.com/support/home/zh-tw/product-support/product/{}/drivers".format(
+    baseurl = "https://www.dell.com/support/home/en-us/product-support/product/{}/drivers".format(
         url_model
     )
     browser.get(baseurl)
@@ -144,6 +144,7 @@ def show_model(model, url_model):
             description=description,
             important_information=important_information,
             crawler_info=tr_id,
+            model_link=baseurl,
         )
         session.add(driver)
         session.commit()
@@ -157,6 +158,6 @@ def show_model(model, url_model):
 
 
 if __name__ == "__main__":
-    model = "1850"
-    url_model = "poweredge-1850"
+    model = "R730"
+    url_model = "poweredge-r730"
     show_model(model, url_model)

@@ -6,7 +6,7 @@ def show_model(model, url_model):
 
     # 設定 webdriver 參數
     options = Options()
-    options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    options.add_experimental_option("excludeSwitches", ["enable-logging"])
     options.add_argument("headless")
     options.add_argument("window-size=1920,1080")
 
@@ -73,6 +73,7 @@ def show_model(model, url_model):
             # description=description,
             # important_information=important_information,
             crawler_info=crawler_info,
+            model_link=baseurl,
         )
         session.add(driver)
         session.commit()
