@@ -1,12 +1,10 @@
 from sqlalchemy import create_engine, Column, Integer, String, Date, event
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-import os
-import requests
-import smtplib
-from email.mime.text import MIMEText
-
-line_notify_access_token = os.environ.get("line_notify_access_token")
+from brands.databases.notifications.notification import (
+    send_line_notification,
+    send_email_notification,
+)
 
 # 定義資料表的抽象類別
 Base = declarative_base()
@@ -35,50 +33,29 @@ class Driver(Base):
 engine = create_engine("sqlite:///brands/databases/firmwares.sqlite")
 test = create_engine("sqlite:///brands/databases/test.sqlite")
 # 建立資料表
-Base.metadata.create_all(test)
+Base.metadata.create_all(engine)
 
 # 建立 session 類別
-Session = sessionmaker(bind=test)
+Session = sessionmaker(bind=engine)
 
 
-# 設定 email
-def send_email_notification(message):
-    email = "firmware_crawler@chief.com.tw"
-    to_email = "brian_chiang@chief.com.tw"
-
-    msg = MIMEText(message)
-    msg["Subject"] = "New data committed"
-    msg["From"] = email
-    msg["To"] = to_email
-
-    server = smtplib.SMTP("localhost")
-    server.send_message(msg)
-    server.quit()
-
-
-# 監聽事件
+# 監聽事件，當資料庫 commit 時，發送通知
 @event.listens_for(Session, "before_commit")
 def receive_after_commit(session):
     for obj in session.new:
-        message = "brand={}\nmodel={}\ntitle={}\nversion={}\nimportance={}\ncategory={}\nrelease_date={}".format(
-            obj.brand,
-            obj.model,
-            obj.title,
-            obj.version,
-            obj.importance,
-            obj.category,
-            obj.release_date,
-        )
+        message = f"""
+        這是來自Firmware_Crawler的通知,以下是最新取得的資料:
+        brand={obj.brand}
+        model={obj.model}
+        model_link={obj.model_link}
+        title={obj.title}
+        version={obj.version}
+        importance={obj.importance}
+        category={obj.category}
+        release_date={obj.release_date}
+        download_link={obj.download_link}
+        description={obj.description}
+        important_information={obj.important_information}"""
 
-    # 透過 line notify 發送
-    headers = {
-        "Authorization": "Bearer " + str(line_notify_access_token),
-        "Content-Type": "application/x-www-form-urlencoded",
-    }
-    params = {"message": message}
-    # requests.post(
-    #     "https://notify-api.line.me/api/notify", headers=headers, params=params
-    # )
-
-    # # 透過 email 發送
-    # send_email_notification(message)
+    send_email_notification(message)
+    send_line_notification(message)

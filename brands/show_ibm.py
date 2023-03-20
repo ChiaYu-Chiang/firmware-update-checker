@@ -16,15 +16,9 @@ def show_model(model, url_model):
     wait = WebDriverWait(browser, 30)
 
     baseurl = (
-        "https://www.ibm.com/support/fixcentral/{}&&platform=All&function=all".format(
-            url_model
-        )
+        f"https://www.ibm.com/support/fixcentral/{url_model}&&platform=All&function=all"
     )
-    baseurl_brocade = (
-        "https://www.ibm.com/support/fixcentral/{}&&platform=All&function=all".format(
-            url_model_brocade
-        )
-    )
+    baseurl_brocade = f"https://www.ibm.com/support/fixcentral/{url_model_brocade}&&platform=All&function=all"
     urls = [baseurl, baseurl_brocade]
 
     for url in urls:

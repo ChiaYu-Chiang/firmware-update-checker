@@ -6,7 +6,7 @@ def show_model(model, url_model):
 
     # 設定 webdriver 參數
     options = Options()
-    options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    options.add_experimental_option("excludeSwitches", ["enable-logging"])
     options.add_argument("headless")
     options.add_argument("window-size=1920,1080")
 
@@ -15,11 +15,7 @@ def show_model(model, url_model):
     wait = WebDriverWait(browser, 30)
 
     # 訪問網頁
-    baseurl = (
-        "https://www.gigabyte.com/tw/Enterprise/Rack-Server/{}#Support-Firmware".format(
-            url_model
-        )
-    )
+    baseurl = f"https://www.gigabyte.com/tw/Enterprise/Rack-Server/{url_model}#Support-Firmware"
     browser.get(baseurl)
 
     # 等待資料顯式

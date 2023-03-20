@@ -160,9 +160,7 @@ def show_model(model, url_model):
     wait = WebDriverWait(browser, 30)
 
     # 訪問網頁
-    baseurl = "https://support.hpe.com/connect/s/product?language=en_US&ismnp={}&tab=driversAndSoftware".format(
-        url_model
-    )
+    baseurl = f"https://support.hpe.com/connect/s/product?language=en_US&ismnp={url_model}&tab=driversAndSoftware"
     browser.get(baseurl)
 
     filter_list = wait.until(

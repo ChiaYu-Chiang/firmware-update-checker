@@ -29,23 +29,18 @@ if __name__ == "__main__":
 
             if url_name:
                 try:
-                    print("[{}] [{}] start crawling".format(brand_name, model_name))
+                    print(f"[{brand_name}] [{model_name}] start crawling")
                     module.show_model(model_name, url_name)
                 except:
                     # 若發生錯誤，將 brand 與 model 加入 error_models
                     error_models.append((brand_name, model_name))
 
             else:
-                print(
-                    "[{}] [{}] dose not have url".format(
-                        brand_name,
-                        model_name,
-                    )
-                )
+                print(f"[{brand_name}] [{model_name}] dose not have url")
                 continue
 
     # 印出執行時遭遇錯誤的品牌型號
     if error_models:
         print("The following models failed to be crawled: ")
         for brand_name, model_name in error_models:
-            print("{}, {}".format(brand_name, model_name))
+            print(f"{brand_name}, {model_name}")

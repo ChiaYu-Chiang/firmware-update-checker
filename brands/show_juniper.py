@@ -15,7 +15,7 @@ def show_model(model, url_model):
     wait = WebDriverWait(browser, 30)
 
     # 訪問網頁
-    baseurl = "https://support.juniper.net/support/downloads/?p={}".format(url_model)
+    baseurl = f"https://support.juniper.net/support/downloads/?p={url_model}"
     browser.get(baseurl)
 
     # 點擊展開按鈕

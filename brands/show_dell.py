@@ -15,9 +15,7 @@ def show_model(model, url_model):
     wait = WebDriverWait(browser, 30)
 
     # 訪問網頁
-    baseurl = "https://www.dell.com/support/home/en-us/product-support/product/{}/drivers".format(
-        url_model
-    )
+    baseurl = f"https://www.dell.com/support/home/en-us/product-support/product/{url_model}/drivers"
     browser.get(baseurl)
 
     os_selector = wait.until(

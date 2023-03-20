@@ -15,7 +15,7 @@ def show_model(model, url_model):
     wait = WebDriverWait(browser, 30)
 
     # 訪問網頁
-    baseurl = "https://software.cisco.com/download/home/{}/release".format(url_model)
+    baseurl = f"https://software.cisco.com/download/home/{url_model}/release"
     browser.get(baseurl)
 
     # 等待元素出現
