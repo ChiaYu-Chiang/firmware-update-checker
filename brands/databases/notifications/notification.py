@@ -1,4 +1,4 @@
-from email.mime.text import MIMEText
+from email.message import EmailMessage
 import smtplib
 import requests
 import os
@@ -8,13 +8,16 @@ def send_email_notification(message):
     smtp_server = "mail.adsl.chief.net.tw"
     smtp_port = 25
 
-    email = "Firmware_Crawler@chief.com.tw"
-    to_email = "brian_chiang@chief.com.tw"
+    from_email = "Firmware_Crawler@chief.com.tw"
+    to_email = ["brian_chiang@chief.com.tw"]
+    cc_email = [""]
 
-    msg = MIMEText(message)
+    msg = EmailMessage()
+    msg["From"] = from_email
+    msg["To"] = ", ".join(to_email)
+    msg["Cc"] = ", ".join(cc_email)
     msg["Subject"] = "New data committed"
-    msg["From"] = email
-    msg["To"] = to_email
+    msg.set_content(message)
 
     server = smtplib.SMTP(smtp_server, smtp_port)
     server.send_message(msg)
