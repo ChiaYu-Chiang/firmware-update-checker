@@ -25,12 +25,10 @@ def send_email_notification(message):
 
 
 def send_line_notification(message):
+    url = "https://notify-api.line.me/api/notify"
     line_notify_access_token = os.environ.get("line_notify_access_token")
     headers = {
         "Authorization": "Bearer " + str(line_notify_access_token),
-        "Content-Type": "application/x-www-form-urlencoded",
     }
-    params = {"message": message}
-    requests.post(
-        "https://notify-api.line.me/api/notify", headers=headers, params=params
-    )
+    data = {"message": message}
+    requests.post(url, headers=headers, data=data)
