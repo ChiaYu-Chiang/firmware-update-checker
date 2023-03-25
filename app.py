@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap5
-from sqlalchemy import create_engine, and_, or_
+from sqlalchemy import create_engine, or_
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.sql.expression import func
 from brands.databases.database import Driver
 from logging.handlers import TimedRotatingFileHandler, HTTPHandler
 import logging
-import requests
+from brands.databases.notifications.notification import send_line_notification
+
 
 app = Flask(__name__)
 bootstrap = Bootstrap5(app)
@@ -14,6 +14,13 @@ bootstrap = Bootstrap5(app)
 # 建立資料庫連線
 engine = create_engine("sqlite:///brands/databases/firmwares.sqlite")
 Session = sessionmaker(bind=engine)
+
+
+class LineNotifyHandler(logging.Handler):
+    def emit(self, record):
+        message = self.format(record)
+        send_line_notification(message)
+
 
 # 設定日誌
 logger = logging.getLogger("app")
@@ -30,6 +37,10 @@ logger.addHandler(log_handler)
 http_handler = HTTPHandler(host="", url="", method="POST")
 http_handler.setLevel(logging.WARNING)
 
+line_notify_handler = LineNotifyHandler()
+line_notify_handler.setLevel(logging.WARNING)
+logger.addHandler(line_notify_handler)
+
 
 # 日誌紀錄和發送 LINE Notify
 @app.after_request
@@ -38,15 +49,6 @@ def get_status_code(response):
     status_code = response.status
     message = f"Request: method={request.method}, status={status_code}, path={request.path}, user_ip={user_ip}"
     logger.info(message)
-    if logger.level >= logging.WARNING:
-        headers = {
-            "Authorization": "Bearer " + app.config["line_notify_access_token"],
-            "Content-Type": "application/x-www-form-urlencoded",
-        }
-        params = {"message": message}
-        requests.post(
-            "https://notify-api.line.me/api/notify", headers=headers, params=params
-        )
     return response
 
 
@@ -116,6 +118,13 @@ def index():
         importance=importance,
         search=search,
     )
+
+
+# 測試發送warning級別的日誌
+@app.route("/test_notification")
+def test_notification():
+    logger.warning("Test notification")
+    return "Test notification"
 
 
 if __name__ == "__main__":
