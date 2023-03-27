@@ -70,11 +70,15 @@ pip install -r requirements.txt
 2. Execute program.
 * windows
 ```shell
+# if use reverse proxy
+# set HOST=127.0.0.1
 set line_notify_access_token=your_token
 python crawl.py
 ```
 * linux
 ```shell
+# if use reverse proxy
+# export HOST=127.0.0.1
 export line_notify_access_token=your_token
 python crawl.py
 ```
