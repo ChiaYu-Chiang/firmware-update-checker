@@ -17,7 +17,7 @@ def send_email_notification(message):
     msg["To"] = ", ".join(to_email)
     msg["Cc"] = ", ".join(cc_email)
     msg["Subject"] = "New data committed"
-    msg.set_content(message)
+    msg.set_content(message, subtype="html")
 
     server = smtplib.SMTP(smtp_server, smtp_port)
     server.send_message(msg)
