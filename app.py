@@ -4,6 +4,7 @@ from sqlalchemy import create_engine, or_
 from sqlalchemy.orm import sessionmaker
 from brands.databases.database import Driver
 from logging.handlers import TimedRotatingFileHandler, HTTPHandler
+from werkzeug.exceptions import HTTPException
 import logging
 from brands.databases.notifications.notification import send_line_notification
 
@@ -118,6 +119,26 @@ def index():
         importance=importance,
         search=search,
     )
+
+
+@app.errorhandler(403)
+def forbidden(error):
+    message = "You are not allowed to access this page."
+    return render_template("403.html", message=message), 403
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    message = "This page dose not exist."
+    return render_template("404.html", message=message), 404
+
+
+@app.errorhandler(Exception)
+def app_errorhandler(e):
+    if isinstance(e, HTTPException):
+        return e
+    message = "Oops! Something went wrong. Please come back in a while."
+    return render_template("500.html", message=message), 500
 
 
 # 測試發送warning級別的日誌

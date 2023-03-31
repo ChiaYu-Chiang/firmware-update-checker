@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %} - Forbidden{% endblock %}
+
+{% block content %}
+{{ super() }}
+<div class="container-fluid page-header">
+    <h1 class="mb-3">403 Forbidden</h1>
+    <h3 class="mb-3">{{ message }}</h3>
+    <h3><a href="{{ url_for('index') }}" class="btn btn-primary">Go Home</a></h3>
+</div>
+{% endblock %}
+    
+    
