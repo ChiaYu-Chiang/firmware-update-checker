@@ -89,3 +89,9 @@ def show_model(model, url_model):
     # 等待使用者手動關閉瀏覽器
     # input("Press any key to close the browser...")
     browser.quit()
+
+
+if __name__ == "__main__":
+    model = "R182-340"
+    url_model = "R182-340-rev-100"
+    show_model(model, url_model)

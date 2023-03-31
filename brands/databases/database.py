@@ -59,58 +59,58 @@ def receive_after_commit(session):
 
         email_message = f"""
         <html>
-        <head>
-            <style>
-                table {{
-                    border-collapse: collapse;
-                    width: 80%;
-                    margin: auto;
-                }}
-                th, td {{
-                    text-align: left;
-                    padding: 8px;
-                }}
-                tr:nth-child(even) {{
-                    background-color: #f2f2f2;
-                }}
-                th {{
-                    background-color: #4CAF50;
-                    color: white;
-                }}
-                .long-col {{
-                    width: 30%;
-                    word-wrap: break-word;
-                }}
-            </style>
-        </head>
-        <body>
-            <table>
-                <tr>
-                    <th>品牌</th>
-                    <th>型號</th>
-                    <th>標題</th>
-                    <th>版本</th>
-                    <th>重要性</th>
-                    <th>類別</th>
-                    <th>釋出日期</th>
-                    <th>下載連結</th>
-                    <th class="long-col">描述</th>
-                    <th class="long-col">重要資訊</th>
-                </tr>
-                <tr>
-                    <td>{obj.brand}</td>
-                    <td><a href="{obj.model_link}">{obj.model}</a></td>
-                    <td class="long-col">{obj.title}</td>
-                    <td>{obj.version}</td>
-                    <td>{obj.importance}</td>
-                    <td>{obj.category}</td>
-                    <td>{obj.release_date}</td>
-                    <td><a href="{obj.download_link}">下載</a></td>
-                    <td class="long-col">{obj.description}</td>
-                    <td class="long-col">{obj.important_information}</td>
-                </tr>
-            </table>
-        </body>
+            <head>
+                <style>
+                    table {{
+                        border-collapse: collapse;
+                        width: 80%;
+                        margin: auto;
+                    }}
+                    th, td {{
+                        text-align: left;
+                        padding: 8px;
+                    }}
+                    tr:nth-child(even) {{
+                        background-color: #f2f2f2;
+                    }}
+                    th {{
+                        background-color: #4CAF50;
+                        color: white;
+                    }}
+                    .long-col {{
+                        width: 30%;
+                        word-wrap: break-word;
+                    }}
+                </style>
+            </head>
+            <body>
+                <table>
+                    <tr>
+                        <th>品牌</th>
+                        <th>型號</th>
+                        <th>標題</th>
+                        <th>版本</th>
+                        <th>重要性</th>
+                        <th>類別</th>
+                        <th>釋出日期</th>
+                        <th>下載連結</th>
+                        <th class="long-col">描述</th>
+                        <th class="long-col">重要資訊</th>
+                    </tr>
+                    <tr>
+                        <td>{obj.brand}</td>
+                        <td><a href="{obj.model_link}">{obj.model}</a></td>
+                        <td class="long-col">{obj.title}</td>
+                        <td>{obj.version}</td>
+                        <td>{obj.importance}</td>
+                        <td>{obj.category}</td>
+                        <td>{obj.release_date}</td>
+                        <td><a href="{obj.download_link}">下載</a></td>
+                        <td class="long-col">{obj.description}</td>
+                        <td class="long-col">{obj.important_information}</td>
+                    </tr>
+                </table>
+            </body>
         </html>
         """
 
