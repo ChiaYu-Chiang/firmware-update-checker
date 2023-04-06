@@ -12,11 +12,16 @@ def get_detail_page(link):
 
     browser.get(link)
 
+    # 透過 cookie 設定語言為英文
+    cookie = {"name": "lang", "value": "en"}
+    browser.add_cookie(cookie)
+    browser.refresh()
+
     text_block = wait.until(
         EC.presence_of_element_located(
             (
                 By.XPATH,
-                '//*[@id="tab-2"]/slot/lightning-formatted-rich-text/span/span',
+                '//*[@id="tab-1"]/slot/lightning-formatted-rich-text/span/span',
             )
         )
     )
@@ -162,6 +167,11 @@ def show_model(model, url_model):
     # 訪問網頁
     baseurl = f"https://support.hpe.com/connect/s/product?language=en_US&ismnp={url_model}&tab=driversAndSoftware"
     browser.get(baseurl)
+
+    # 透過 cookie 設定語言為英文
+    cookie = {"name": "lang", "value": "en"}
+    browser.add_cookie(cookie)
+    browser.refresh()
 
     filter_list = wait.until(
         EC.visibility_of_element_located(

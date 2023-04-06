@@ -15,7 +15,7 @@ def show_model(model, url_model):
     wait = WebDriverWait(browser, 30)
 
     # 訪問網頁
-    baseurl = f"https://www.qnap.com/zh-tw/download?model={url_model}&category=firmware"
+    baseurl = f"https://www.qnap.com/en-us/download?model={url_model}&category=firmware"
     browser.get(baseurl)
 
     # 等待元素出現

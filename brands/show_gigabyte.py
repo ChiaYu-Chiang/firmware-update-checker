@@ -15,13 +15,13 @@ def show_model(model, url_model):
     wait = WebDriverWait(browser, 30)
 
     # 訪問網頁
-    baseurl = f"https://www.gigabyte.com/tw/Enterprise/Rack-Server/{url_model}#Support-Firmware"
+    baseurl = f"https://www.gigabyte.com/us/Enterprise/Rack-Server/{url_model}#Support-Firmware"
     browser.get(baseurl)
 
-    # 等待資料顯式
+    # 等待資料顯示
     element = wait.until(
         EC.visibility_of_element_located(
-            (By.XPATH, '//*[@id="Section-Support"]/div/div[2]/div/div[4]')
+            (By.XPATH, '//*[@id="Section-Support"]/div/div[2]/div[2]/div[4]')
         )
     )
 

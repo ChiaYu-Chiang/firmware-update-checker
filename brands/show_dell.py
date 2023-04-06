@@ -18,6 +18,11 @@ def show_model(model, url_model):
     baseurl = f"https://www.dell.com/support/home/en-us/product-support/product/{url_model}/drivers"
     browser.get(baseurl)
 
+    # 透過 cookie 設定語言為英文
+    cookie = {"name": "lwp", "value": "c=us&l=en&cs=04&s=bsd"}
+    browser.add_cookie(cookie)
+    browser.refresh()
+
     os_selector = wait.until(
         EC.visibility_of_element_located(
             (By.XPATH, '//*[@id="driverFilter"]/div[2]/label')
