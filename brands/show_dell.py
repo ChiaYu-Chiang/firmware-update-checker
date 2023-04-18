@@ -1,5 +1,7 @@
 from common_import import *
 
+delay = random.randint(1, 5)
+
 
 def show_model(model, url_model):
     brand = "dell"
@@ -14,6 +16,7 @@ def show_model(model, url_model):
     browser = webdriver.Chrome(options=options)
     wait = WebDriverWait(browser, 30)
 
+    time.sleep(delay)
     # 訪問網頁
     baseurl = f"https://www.dell.com/support/home/en-us/product-support/product/{url_model}/drivers"
     browser.get(baseurl)
@@ -32,6 +35,7 @@ def show_model(model, url_model):
         # 找到下拉式選單
         element = wait.until(EC.element_to_be_clickable((By.ID, "operating-system")))
         try:
+            time.sleep(delay)
             # 選擇 option value="NAA" 的選項
             select = Select(element)
             select.select_by_value("NAA")
@@ -39,6 +43,7 @@ def show_model(model, url_model):
             pass
 
     filter_button = wait.until(EC.element_to_be_clickable((By.ID, "ddl-dwldtype-btn")))
+    time.sleep(delay)
     filter_button.click()
     try:
         # 勾選 BIOS 和韌體的 checkbox
@@ -49,6 +54,7 @@ def show_model(model, url_model):
     except:
         pass
     # 點擊下載類型的按鈕以收起選項
+    time.sleep(delay)
     filter_button.click()
 
     try:
@@ -57,6 +63,7 @@ def show_model(model, url_model):
             EC.element_to_be_clickable((By.ID, "paginationRow"))
         )
 
+        time.sleep(delay)
         # 點擊按鈕
         show_all_button.click()
     except:
@@ -83,6 +90,7 @@ def show_model(model, url_model):
                 print("Data already exist")
                 continue
 
+        time.sleep(delay)
         # 點擊按鈕
         button.click()
 
@@ -161,6 +169,6 @@ def show_model(model, url_model):
 
 
 if __name__ == "__main__":
-    model = "R730"
-    url_model = "poweredge-r730"
+    model = "5524 switch"
+    url_model = "powerconnect-5524"
     show_model(model, url_model)
