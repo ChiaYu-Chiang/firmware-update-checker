@@ -1,7 +1,7 @@
 from common_import import *
 
 
-def show_model(model, url_model):
+def show_model(model, url_model, date_after=None):
     brand = "juniper"
 
     # 設定 webdriver 參數
@@ -82,24 +82,27 @@ def show_model(model, url_model):
                         print("Data already exist")
                         continue
 
-                # 寫入至資料庫
-                print(f"new data: {title}")
-                driver = Driver(
-                    brand=brand,
-                    model=model,
-                    title=title,
-                    version=version,
-                    # importance=importance,
-                    category=section_title,
-                    release_date=release_date,
-                    download_link=download_link,
-                    # description=description,
-                    # important_information=important_information,
-                    # crawler_info=crawler_info,
-                    model_link=baseurl,
-                )
-                session.add(driver)
-                session.commit()
+                if release_date > date_after:
+                    # 寫入至資料庫
+                    print(f"new data: {title}")
+                    driver = Driver(
+                        brand=brand,
+                        model=model,
+                        title=title,
+                        version=version,
+                        # importance=importance,
+                        category=section_title,
+                        release_date=release_date,
+                        download_link=download_link,
+                        # description=description,
+                        # important_information=important_information,
+                        # crawler_info=crawler_info,
+                        model_link=baseurl,
+                    )
+                    session.add(driver)
+                    session.commit()
+                else:
+                    print(f"old data: {title}, released_date: {release_date}")
 
             # 關閉連線
             session.close()
@@ -112,4 +115,5 @@ def show_model(model, url_model):
 if __name__ == "__main__":
     model = "SRX4100"
     url_model = "srx4100"
-    show_model(model, url_model)
+    date_after = datetime.strptime("2022-01-01", "%Y-%m-%d").date()
+    show_model(model, url_model, date_after)

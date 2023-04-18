@@ -1,7 +1,7 @@
 from common_import import *
 
 
-def show_model(model, url_model):
+def show_model(model, url_model, date_after=None):
     brand = "ibm"
     url_model_brocade = url_model + "_brocade"
 
@@ -118,24 +118,27 @@ def show_model(model, url_model):
                     print("Data already exist")
                     continue
 
-            # 寫入至資料庫
-            print(f"new data: {title}")
-            driver = Driver(
-                brand=brand,
-                model=model,
-                title=title,
-                version=version,
-                importance=importance,
-                category=category,
-                release_date=release_date,
-                download_link=download_link,
-                description=description,
-                important_information=important_information,
-                # crawler_info=crawler_info,
-                model_link=baseurl,
-            )
-            session.add(driver)
-            session.commit()
+            if release_date > date_after:
+                # 寫入至資料庫
+                print(f"new data: {title}")
+                driver = Driver(
+                    brand=brand,
+                    model=model,
+                    title=title,
+                    version=version,
+                    importance=importance,
+                    category=category,
+                    release_date=release_date,
+                    download_link=download_link,
+                    description=description,
+                    important_information=important_information,
+                    # crawler_info=crawler_info,
+                    model_link=baseurl,
+                )
+                session.add(driver)
+                session.commit()
+            else:
+                print(f"old data: {title}, released_date: {release_date}")
 
         # 關閉連線
         session.close()
@@ -150,4 +153,5 @@ if __name__ == "__main__":
     url_model = (
         "systemx/selectFixes?parent=System%20x3250%20M3&product=ibm/systemx/4252"
     )
-    show_model(model, url_model)
+    date_after = datetime.strptime("2022-01-01", "%Y-%m-%d").date()
+    show_model(model, url_model, date_after)

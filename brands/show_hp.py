@@ -128,30 +128,33 @@ def use_me(wait, browser, brand, model, baseurl):
         description = get_detail_page(download_link)[0]
         important_information = get_detail_page(download_link)[1]
 
-        # 寫入至資料庫
-        print(f"new data: {title}")
-        driver = Driver(
-            brand=brand,
-            model=model,
-            title=title,
-            version=version,
-            importance=importance,
-            category=category,
-            release_date=release_date,
-            download_link=download_link,
-            description=description,
-            important_information=important_information,
-            # crawler_info=tr_id,
-            model_link=baseurl,
-        )
-        session.add(driver)
-        session.commit()
+        if release_date > date_after:
+            # 寫入至資料庫
+            print(f"new data: {title}")
+            driver = Driver(
+                brand=brand,
+                model=model,
+                title=title,
+                version=version,
+                importance=importance,
+                category=category,
+                release_date=release_date,
+                download_link=download_link,
+                description=description,
+                important_information=important_information,
+                # crawler_info=tr_id,
+                model_link=baseurl,
+            )
+            session.add(driver)
+            session.commit()
+        else:
+            print(f"old data: {title}, released_date: {release_date}")
 
     # 關閉連線
     session.close()
 
 
-def show_model(model, url_model):
+def show_model(model, url_model, date_after=None):
     brand = "hp"
 
     # 設定 webdriver 參數
@@ -200,4 +203,5 @@ def show_model(model, url_model):
 if __name__ == "__main__":
     model = "DL380 G7"
     url_model = "0&l5oid=4091412&cep=on&kmpmoid=4091567"
-    show_model(model, url_model)
+    date_after = datetime.strptime("2022-01-01", "%Y-%m-%d").date()
+    show_model(model, url_model, date_after)

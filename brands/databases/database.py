@@ -114,5 +114,5 @@ def receive_after_commit(session):
         </html>
         """
 
-    send_email_notification(email_message)
-    send_line_notification(message)
+    # send_email_notification(email_message)
+    # send_line_notification(message)

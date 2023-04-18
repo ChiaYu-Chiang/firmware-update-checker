@@ -1,5 +1,6 @@
 import json
 import importlib
+from datetime import datetime
 import os
 import sys
 
@@ -26,11 +27,12 @@ if __name__ == "__main__":
             # 取得 model 名稱
             model_name = model["model"]
             url_name = model["url_model"]
+            date_after = datetime.strptime("2022-01-01", "%Y-%m-%d").date()
 
             if url_name:
                 try:
                     print(f"[{brand_name}] [{model_name}] start crawling")
-                    module.show_model(model_name, url_name)
+                    module.show_model(model_name, url_name, date_after)
                 except:
                     # 若發生錯誤，將 brand 與 model 加入 error_models
                     error_models.append((brand_name, model_name))
