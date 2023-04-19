@@ -1,6 +1,6 @@
 from common_import import *
 
-delay = random.randint(1, 5)
+delay = random.randint(2, 5)
 
 
 def show_model(model, url_model, date_after=None):
@@ -16,9 +16,9 @@ def show_model(model, url_model, date_after=None):
     browser = webdriver.Chrome(options=options)
     wait = WebDriverWait(browser, 30)
 
-    time.sleep(delay)
     # 訪問網頁
     baseurl = f"https://www.dell.com/support/home/en-us/product-support/product/{url_model}/drivers"
+    time.sleep(delay)
     browser.get(baseurl)
 
     # 透過 cookie 設定語言為英文
@@ -125,7 +125,7 @@ def show_model(model, url_model, date_after=None):
             )
             # 若為 loading 則等待後再次執行
             if important_information == " Loading...":
-                time.sleep(2)
+                time.sleep(delay)
                 imp_info = child_point.find_element(By.XPATH, "div[8]/p[2]")
                 imp_info_innerHTML = imp_info.get_attribute("innerHTML").replace(
                     "<br>", "\n"

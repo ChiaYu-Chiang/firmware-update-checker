@@ -1,5 +1,7 @@
 from common_import import *
 
+delay = random.randint(2, 5)
+
 
 def get_detail_page(link):
     options = Options()
@@ -10,6 +12,7 @@ def get_detail_page(link):
     browser = webdriver.Chrome(options=options)
     wait = WebDriverWait(browser, 30)
 
+    time.sleep(delay)
     browser.get(link)
 
     # 透過 cookie 設定語言為英文
@@ -61,6 +64,7 @@ def use_me(wait, browser, brand, model, baseurl):
         click_test = WebDriverWait(element, 30).until(
             EC.element_to_be_clickable((By.XPATH, "div/div[1]/button/span"))
         )
+        time.sleep(delay)
         click_test.click()
 
         # 點擊選項
@@ -68,6 +72,7 @@ def use_me(wait, browser, brand, model, baseurl):
             By.XPATH,
             "div/div[2]/lightning-base-combobox-item[4]",
         )
+        time.sleep(delay)
         selection.click()
 
         time.sleep(10)
@@ -169,6 +174,7 @@ def show_model(model, url_model, date_after=None):
 
     # 訪問網頁
     baseurl = f"https://support.hpe.com/connect/s/product?language=en_US&ismnp={url_model}&tab=driversAndSoftware"
+    time.sleep(delay)
     browser.get(baseurl)
 
     # 透過 cookie 設定語言為英文
@@ -189,9 +195,11 @@ def show_model(model, url_model, date_after=None):
     )
 
     if filter_firmware:
+        time.sleep(delay)
         filter_firmware[0].click()
         use_me(wait=wait, browser=browser, brand=brand, model=model, baseurl=baseurl)
     if filter_bios:
+        time.sleep(delay)
         filter_bios[0].click()
         use_me(wait=wait, browser=browser, brand=brand, model=model, baseurl=baseurl)
 

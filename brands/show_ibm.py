@@ -1,5 +1,7 @@
 from common_import import *
 
+delay = random.randint(2, 5)
+
 
 def show_model(model, url_model, date_after=None):
     brand = "ibm"
@@ -23,6 +25,7 @@ def show_model(model, url_model, date_after=None):
     urls = [baseurl, baseurl_brocade]
 
     for url in urls:
+        time.sleep(delay)
         # 訪問網頁
         browser.get(url)
 
@@ -38,8 +41,10 @@ def show_model(model, url_model, date_after=None):
                     (By.XPATH, "div/form/div[2]/div[1]/div/p[7]")
                 )
             )
+            time.sleep(delay)
             filter.click()
             submit = filter_area.find_element(By.XPATH, "div/form/p[5]/button")
+            time.sleep(delay)
             submit.click()
         except:
             print("no firmware update found")

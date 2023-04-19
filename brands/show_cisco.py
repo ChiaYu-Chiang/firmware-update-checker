@@ -1,5 +1,7 @@
 from common_import import *
 
+delay = random.randint(2, 5)
+
 
 def show_model(model, url_model, date_after=None):
     brand = "cisco"
@@ -16,6 +18,7 @@ def show_model(model, url_model, date_after=None):
 
     # 訪問網頁
     baseurl = f"https://software.cisco.com/download/home/{url_model}/release"
+    time.sleep(delay)
     browser.get(baseurl)
 
     # 等待元素出現

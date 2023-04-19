@@ -1,5 +1,7 @@
 from common_import import *
 
+delay = random.randint(2, 5)
+
 
 def show_model(model, url_model, date_after=None):
     brand = "juniper"
@@ -16,6 +18,7 @@ def show_model(model, url_model, date_after=None):
 
     # 訪問網頁
     baseurl = f"https://support.juniper.net/support/downloads/?p={url_model}"
+    time.sleep(delay)
     browser.get(baseurl)
 
     # 點擊展開按鈕
@@ -24,6 +27,7 @@ def show_model(model, url_model, date_after=None):
             (By.XPATH, '//*[@id="downloads-info"]/section/section[1]/div[2]/a')
         )
     )
+    time.sleep(delay)
     button.click()
 
     # 等待元素出現

@@ -1,5 +1,7 @@
 from common_import import *
 
+delay = random.randint(2, 5)
+
 
 def show_model(model, url_model, date_after=None):
     brand = "gigabyte"
@@ -16,6 +18,7 @@ def show_model(model, url_model, date_after=None):
 
     # 訪問網頁
     baseurl = f"https://www.gigabyte.com/us/Enterprise/Rack-Server/{url_model}#Support-Firmware"
+    time.sleep(delay)
     browser.get(baseurl)
 
     # 等待資料顯示
