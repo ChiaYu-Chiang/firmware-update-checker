@@ -27,7 +27,8 @@ if __name__ == "__main__":
             # 取得 model 名稱
             model_name = model["model"]
             url_name = model["url_model"]
-            date_after = datetime.strptime("2022-01-01", "%Y-%m-%d").date()
+            earliest_date = "2022-01-01"
+            date_after = datetime.strptime(earliest_date, "%Y-%m-%d").date()
 
             if url_name:
                 try:

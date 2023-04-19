@@ -9,7 +9,7 @@ def show_model(model, url_model, date_after=None):
     # 設定 webdriver 參數
     options = Options()
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
-    options.add_argument("headless")
+    # options.add_argument("headless")
     options.add_argument("window-size=1920,1080")
 
     # 啟動瀏覽器
@@ -90,43 +90,35 @@ def show_model(model, url_model, date_after=None):
                 print("Data already exist")
                 continue
 
-        time.sleep(delay)
-        # 點擊按鈕
-        button.click()
-
-        # 等待資料顯示出來
-        child_tr = wait.until(EC.presence_of_element_located((By.ID, f"child_{tr_id}")))
-
         # 定位節點
         tableRow_point = button.find_element(By.XPATH, f'//tr[@id="tableRow_{tr_id}"]')
-        child_point = button.find_element(
-            By.XPATH, f'//tr[@id="child_{tr_id}"]/td[2]/section'
-        )
-
-        # 取得資料
         title = tableRow_point.find_element(By.XPATH, "td[2]/div/div[2]").text
-        version = child_point.find_element(By.XPATH, "div[5]/div[1]/p").text
-        importance = tableRow_point.find_element(By.XPATH, "td[3]/span").text
-        category = tableRow_point.find_element(By.XPATH, "td[4]").text
         release_date = tableRow_point.find_element(By.XPATH, "td[5]").text
-        download_link = tableRow_point.find_element(
-            By.XPATH, "td[6]/div/a[2]"
-        ).get_attribute("href")
-        description = child_point.find_element(By.XPATH, "div[7]/p").text
-        try:
-            imp_info = child_point.find_element(By.XPATH, "div[8]/p")
-            imp_info_innerHTML = imp_info.get_attribute("innerHTML").replace(
-                "<br>", "\n"
+
+        # 資料格式處理
+        release_date = datetime.strptime(release_date, "%d %b %Y").date()
+
+        if release_date > date_after:
+            time.sleep(delay)
+            # 點擊按鈕
+            button.click()
+
+            # 等待資料顯示出來
+            wait.until(EC.presence_of_element_located((By.ID, f"child_{tr_id}")))
+            child_point = button.find_element(
+                By.XPATH, f'//tr[@id="child_{tr_id}"]/td[2]/section'
             )
-            important_information = (
-                re.sub(r"<.*?>", "", imp_info_innerHTML)
-                .replace("&nbsp;&nbsp;閱讀更多", "")
-                .strip()
-            )
-            # 若為 loading 則等待後再次執行
-            if important_information == " Loading...":
-                time.sleep(delay)
-                imp_info = child_point.find_element(By.XPATH, "div[8]/p[2]")
+
+            # 取得資料
+            version = child_point.find_element(By.XPATH, "div[5]/div[1]/p").text
+            importance = tableRow_point.find_element(By.XPATH, "td[3]/span").text
+            category = tableRow_point.find_element(By.XPATH, "td[4]").text
+            download_link = tableRow_point.find_element(
+                By.XPATH, "td[6]/div/a[2]"
+            ).get_attribute("href")
+            description = child_point.find_element(By.XPATH, "div[7]/p").text
+            try:
+                imp_info = child_point.find_element(By.XPATH, "div[8]/p")
                 imp_info_innerHTML = imp_info.get_attribute("innerHTML").replace(
                     "<br>", "\n"
                 )
@@ -135,13 +127,21 @@ def show_model(model, url_model, date_after=None):
                     .replace("&nbsp;&nbsp;閱讀更多", "")
                     .strip()
                 )
-        except NoSuchElementException:
-            important_information = None
+                # 若為 loading 則等待後再次執行
+                if important_information == " Loading...":
+                    time.sleep(delay)
+                    imp_info = child_point.find_element(By.XPATH, "div[8]/p[2]")
+                    imp_info_innerHTML = imp_info.get_attribute("innerHTML").replace(
+                        "<br>", "\n"
+                    )
+                    important_information = (
+                        re.sub(r"<.*?>", "", imp_info_innerHTML)
+                        .replace("&nbsp;&nbsp;閱讀更多", "")
+                        .strip()
+                    )
+            except NoSuchElementException:
+                important_information = None
 
-        # 資料格式處理
-        release_date = datetime.strptime(release_date, "%d %b %Y").date()
-
-        if release_date > date_after:
             # 寫入至資料庫
             print(f"new data: {title}")
             driver = Driver(
