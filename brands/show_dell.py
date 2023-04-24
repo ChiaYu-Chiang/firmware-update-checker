@@ -9,11 +9,12 @@ def show_model(model, url_model, date_after=None):
     # 設定 webdriver 參數
     options = Options()
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
-    # options.add_argument("headless")
+    options.add_argument("headless")
     options.add_argument("window-size=1920,1080")
 
     # 啟動瀏覽器
-    browser = webdriver.Chrome(options=options)
+    chrome_driver_path = Service("./chromedriver")
+    browser = webdriver.Chrome(service=chrome_driver_path, options=options)
     wait = WebDriverWait(browser, 30)
 
     # 訪問網頁
@@ -24,6 +25,7 @@ def show_model(model, url_model, date_after=None):
     # 透過 cookie 設定語言為英文
     cookie = {"name": "lwp", "value": "c=us&l=en&cs=04&s=bsd"}
     browser.add_cookie(cookie)
+    time.sleep(10)
     browser.refresh()
 
     os_selector = wait.until(
@@ -172,7 +174,7 @@ def show_model(model, url_model, date_after=None):
 
 
 if __name__ == "__main__":
-    model = "5524 switch"
-    url_model = "powerconnect-5524"
+    model = "R410"
+    url_model = "poweredge-r410"
     date_after = datetime.strptime("2022-01-01", "%Y-%m-%d").date()
     show_model(model, url_model, date_after)

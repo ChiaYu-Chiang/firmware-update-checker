@@ -15,7 +15,8 @@ def show_model(model, url_model, date_after=None):
     options.add_argument("window-size=1920,1080")
 
     # 啟動瀏覽器
-    browser = webdriver.Chrome(options=options)
+    chrome_driver_path = Service("./chromedriver")
+    browser = webdriver.Chrome(service=chrome_driver_path, options=options)
     wait = WebDriverWait(browser, 30)
 
     baseurl = (

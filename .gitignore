@@ -3,3 +3,4 @@
 *.sqlite
 __pycache__
 logs
+chromedriver*
