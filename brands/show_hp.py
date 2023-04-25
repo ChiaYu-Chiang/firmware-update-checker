@@ -1,6 +1,6 @@
 from common_import import *
 
-delay = random.randint(2, 5)
+delay = random.randint(2, 10)
 
 
 def get_detail_page(link):
