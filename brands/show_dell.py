@@ -9,6 +9,8 @@ def show_model(model, url_model, date_after=None):
     # 設定 webdriver 參數
     options = Options()
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
+    options.add_experimental_option("prefs", {"intl.accept_languages": "en, en_US"})
+    options.add_argument("--lang=en-US")
     options.add_argument("headless")
     options.add_argument("window-size=1920,1080")
 
@@ -23,9 +25,10 @@ def show_model(model, url_model, date_after=None):
     browser.get(baseurl)
 
     # 透過 cookie 設定語言為英文
+    browser.delete_all_cookies()
+    time.sleep(10)
     cookie = {"name": "lwp", "value": "c=us&l=en&cs=04&s=bsd"}
     browser.add_cookie(cookie)
-    time.sleep(10)
     browser.refresh()
 
     os_selector = wait.until(
@@ -174,7 +177,7 @@ def show_model(model, url_model, date_after=None):
 
 
 if __name__ == "__main__":
-    model = "R410"
-    url_model = "poweredge-r410"
+    model = "R610"
+    url_model = "poweredge-r610"
     date_after = datetime.strptime("2022-01-01", "%Y-%m-%d").date()
     show_model(model, url_model, date_after)

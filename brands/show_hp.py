@@ -6,6 +6,8 @@ delay = random.randint(2, 10)
 def get_detail_page(link):
     options = Options()
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
+    options.add_experimental_option("prefs", {"intl.accept_languages": "en, en_US"})
+    options.add_argument("--lang=en-US")
     options.add_argument("headless")
     options.add_argument("window-size=1920,1080")
 
@@ -18,6 +20,8 @@ def get_detail_page(link):
     browser.get(link)
 
     # 透過 cookie 設定語言為英文
+    browser.delete_all_cookies()
+    time.sleep(10)
     cookie = {"name": "lang", "value": "en"}
     browser.add_cookie(cookie)
     browser.refresh()
@@ -167,6 +171,8 @@ def show_model(model, url_model, date_after=None):
     # 設定 webdriver 參數
     options = Options()
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
+    options.add_experimental_option("prefs", {"intl.accept_languages": "en, en_US"})
+    options.add_argument("--lang=en-US")
     options.add_argument("headless")
     options.add_argument("window-size=1920,1080")
 
@@ -181,6 +187,8 @@ def show_model(model, url_model, date_after=None):
     browser.get(baseurl)
 
     # 透過 cookie 設定語言為英文
+    browser.delete_all_cookies()
+    time.sleep(10)
     cookie = {"name": "lang", "value": "en"}
     browser.add_cookie(cookie)
     browser.refresh()
