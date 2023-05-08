@@ -123,6 +123,12 @@ def use_me(wait, browser, brand, model, baseurl):
         ).get_attribute("href")
 
         # 資料格式處理
+        if importance == "Recommended":
+            importance = "RECOMMENDED"
+        elif importance == "Optional":
+            importance = "OPTIONAL"
+        elif importance == "Critical":
+            importance = "CRITICAL"
         release_date = datetime.strptime(release_date, "%Y-%m-%d").date()
 
         # 判斷資料是否已抓過
@@ -222,5 +228,5 @@ def show_model(model, url_model, date_after=None):
 if __name__ == "__main__":
     model = "DL380 G7"
     url_model = "0&l5oid=4091412&cep=on&kmpmoid=4091567"
-    date_after = datetime.strptime("2022-01-01", "%Y-%m-%d").date()
+    date_after = datetime.strptime("2000-01-01", "%Y-%m-%d").date()
     show_model(model, url_model, date_after)
