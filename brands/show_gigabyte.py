@@ -20,9 +20,8 @@ def show_model(model, url_model, date_after=None):
     wait = WebDriverWait(browser, 30)
 
     # 訪問網頁
-    baseurl = f"https://www.gigabyte.com/us/Enterprise/Rack-Server/{url_model}#Support-Firmware"
     time.sleep(delay)
-    browser.get(baseurl)
+    browser.get(url_model)
 
     # 等待資料顯示
     element = wait.until(
@@ -102,6 +101,6 @@ def show_model(model, url_model, date_after=None):
 
 if __name__ == "__main__":
     model = "R182-340"
-    url_model = "R182-340-rev-100"
+    url_model = "https://www.gigabyte.com/us/Enterprise/Rack-Server/R182-340-rev-100#Support-Firmware"
     date_after = datetime.strptime("2022-01-01", "%Y-%m-%d").date()
     show_model(model, url_model, date_after)

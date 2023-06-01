@@ -274,10 +274,6 @@
             {
                 "model": "x3250M3",
                 "url_model": "systemx/selectFixes?parent=System%20x3250%20M3&product=ibm/systemx/4251"
-            },
-            {
-                "model": "x3250M3",
-                "url_model": "systemx/selectFixes?parent=System%20x3250%20M3&product=ibm/systemx/4251_brocade"
             }
         ]
     },

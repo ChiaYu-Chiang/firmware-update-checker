@@ -20,9 +20,8 @@ def show_model(model, url_model, date_after=None):
     wait = WebDriverWait(browser, 30)
 
     # 訪問網頁
-    baseurl = f"https://www.qnap.com/en-us/download?model={url_model}&category=firmware"
     time.sleep(delay)
-    browser.get(baseurl)
+    browser.get(url_model)
 
     # 等待元素出現
     element = wait.until(
@@ -82,7 +81,7 @@ def show_model(model, url_model, date_after=None):
                 description=description,
                 # important_information=important_information,
                 # crawler_info=crawler_info,
-                model_link=baseurl,
+                model_link=url_model,
             )
             session.add(driver)
             session.commit()
@@ -99,6 +98,6 @@ def show_model(model, url_model, date_after=None):
 
 if __name__ == "__main__":
     model = "TS-269L"
-    url_model = "ts-269l"
+    url_model = "https://www.qnap.com/en-us/download?model=ts-269l&category=firmware"
     date_after = datetime.strptime("2022-01-01", "%Y-%m-%d").date()
     show_model(model, url_model, date_after)

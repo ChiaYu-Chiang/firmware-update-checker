@@ -2,11 +2,12 @@ from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap5
 from sqlalchemy import create_engine, or_
 from sqlalchemy.orm import sessionmaker
-from brands.databases.database import Driver
+from brands.databases.database import Driver, Target
 from logging.handlers import TimedRotatingFileHandler, HTTPHandler
 from werkzeug.exceptions import HTTPException
 import logging
 from brands.databases.notifications.notification import send_line_notification
+from sqlalchemy.exc import IntegrityError
 
 
 app = Flask(__name__)
@@ -51,6 +52,34 @@ def get_status_code(response):
     message = f"Request: method={request.method}, status={status_code}, path={request.path}, user_ip={user_ip}"
     logger.info(message)
     return response
+
+
+@app.route("/add_model", methods=["GET", "POST"])
+def add_model():
+    if request.method == "POST":
+        brand = request.form.get("brand").lower()
+        if brand == "other":
+            brand = request.form.get("other_brand").lower()
+        model = request.form.get("model")
+        model_link = request.form.get("model_link")
+        session = Session()
+        try:
+            driver = Target(brand=brand, model=model, model_link=model_link)
+            session.add(driver)
+            session.commit()
+            message = "新增成功"
+        except IntegrityError:
+            session.rollback()
+            message = "此筆資料已經存在"
+        brands = session.query(Target.brand).distinct().all()
+        session.close()
+        brands = [brand[0] for brand in brands if brand[0]]
+        return render_template("add_model.html", brands=brands, message=message)
+    session = Session()
+    brands = session.query(Target.brand).distinct().all()
+    session.close()
+    brands = [brand[0] for brand in brands if brand[0]]
+    return render_template("add_model.html", brands=brands)
 
 
 @app.route("/")

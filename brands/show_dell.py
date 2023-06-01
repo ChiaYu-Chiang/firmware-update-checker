@@ -20,9 +20,8 @@ def show_model(model, url_model, date_after=None):
     wait = WebDriverWait(browser, 30)
 
     # 訪問網頁
-    baseurl = f"https://www.dell.com/support/home/en-us/product-support/product/{url_model}/drivers"
     time.sleep(delay)
-    browser.get(baseurl)
+    browser.get(url_model)
 
     # 透過 cookie 設定語言為英文
     browser.delete_all_cookies()
@@ -161,7 +160,7 @@ def show_model(model, url_model, date_after=None):
                 description=description,
                 important_information=important_information,
                 crawler_info=tr_id,
-                model_link=baseurl,
+                model_link=url_model,
             )
             session.add(driver)
             session.commit()
@@ -178,6 +177,6 @@ def show_model(model, url_model, date_after=None):
 
 if __name__ == "__main__":
     model = "R610"
-    url_model = "poweredge-r610"
+    url_model = "https://www.dell.com/support/home/en-us/product-support/product/poweredge-r610/drivers"
     date_after = datetime.strptime("2022-01-01", "%Y-%m-%d").date()
     show_model(model, url_model, date_after)

@@ -5,7 +5,6 @@ delay = random.randint(2, 10)
 
 def show_model(model, url_model, date_after=None):
     brand = "ibm"
-    url_model_brocade = url_model + "_brocade"
 
     # 設定 webdriver 參數
     options = Options()
@@ -20,10 +19,8 @@ def show_model(model, url_model, date_after=None):
     browser = webdriver.Chrome(service=chrome_driver_path, options=options)
     wait = WebDriverWait(browser, 30)
 
-    baseurl = (
-        f"https://www.ibm.com/support/fixcentral/{url_model}&&platform=All&function=all"
-    )
-    baseurl_brocade = f"https://www.ibm.com/support/fixcentral/{url_model_brocade}&&platform=All&function=all"
+    baseurl = url_model
+    baseurl_brocade = baseurl.replace("&&platform", "_brocade&&platform")
     urls = [baseurl, baseurl_brocade]
 
     for url in urls:
@@ -157,8 +154,6 @@ def show_model(model, url_model, date_after=None):
 
 if __name__ == "__main__":
     model = "x3250M3"
-    url_model = (
-        "systemx/selectFixes?parent=System%20x3250%20M3&product=ibm/systemx/4252"
-    )
+    url_model = "https://www.ibm.com/support/fixcentral/systemx/selectFixes?parent=System%20x3250%20M3&product=ibm/systemx/4251&&platform=All&function=all"
     date_after = datetime.strptime("2022-01-01", "%Y-%m-%d").date()
     show_model(model, url_model, date_after)

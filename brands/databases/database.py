@@ -1,10 +1,20 @@
-from sqlalchemy import create_engine, Column, Integer, String, Date, event
+from sqlalchemy import (
+    create_engine,
+    Column,
+    Integer,
+    String,
+    Date,
+    event,
+    DateTime,
+    UniqueConstraint,
+)
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from brands.databases.notifications.notification import (
     send_line_notification,
     send_email_notification,
 )
+from datetime import datetime
 
 # 定義資料表的抽象類別
 Base = declarative_base()
@@ -27,6 +37,17 @@ class Driver(Base):
     important_information = Column(String)
     crawler_info = Column(String)
     model_link = Column(String)
+
+
+class Target(Base):
+    __tablename__ = "targets"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    brand = Column(String)
+    model = Column(String)
+    model_link = Column(String)
+    created_at = Column(DateTime, default=datetime.now)
+    # brand, model 組合為 unique
+    __table_args__ = (UniqueConstraint("brand", "model", name="_brand_model_uc"),)
 
 
 # 定義連接引擎

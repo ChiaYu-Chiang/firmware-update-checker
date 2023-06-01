@@ -20,9 +20,8 @@ def show_model(model, url_model, date_after=None):
     wait = WebDriverWait(browser, 30)
 
     # 訪問網頁
-    baseurl = f"https://software.cisco.com/download/home/{url_model}/release"
     time.sleep(delay)
-    browser.get(baseurl)
+    browser.get(url_model)
 
     # 等待元素出現
     element = wait.until(
@@ -48,7 +47,7 @@ def show_model(model, url_model, date_after=None):
             By.XPATH, '//*[@id="release-version-title"]'
         ).text
         release_date = content.find_element(By.XPATH, "div/div[2]").text
-        download_link = baseurl
+        download_link = url_model
         crawler_info = content.find_element(By.XPATH, "div/div[1]/div[2]/span").text
 
         # 資料格式處理
@@ -80,7 +79,7 @@ def show_model(model, url_model, date_after=None):
                 # description=description,
                 # important_information=important_information,
                 crawler_info=crawler_info,
-                model_link=baseurl,
+                model_link=url_model,
             )
             session.add(driver)
             session.commit()
@@ -97,6 +96,8 @@ def show_model(model, url_model, date_after=None):
 
 if __name__ == "__main__":
     model = "WS-C2960S-24TS-S"
-    url_model = "282867583/type/280805680"
+    url_model = (
+        "https://software.cisco.com/download/home/282867583/type/280805680/release"
+    )
     date_after = datetime.strptime("2022-01-01", "%Y-%m-%d").date()
     show_model(model, url_model, date_after)

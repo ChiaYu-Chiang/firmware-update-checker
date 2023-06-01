@@ -20,9 +20,8 @@ def show_model(model, url_model, date_after=None):
     wait = WebDriverWait(browser, 30)
 
     # 訪問網頁
-    baseurl = f"https://support.juniper.net/support/downloads/?p={url_model}"
     time.sleep(delay)
-    browser.get(baseurl)
+    browser.get(url_model)
 
     # 點擊展開按鈕
     button = wait.until(
@@ -104,7 +103,7 @@ def show_model(model, url_model, date_after=None):
                         # description=description,
                         # important_information=important_information,
                         # crawler_info=crawler_info,
-                        model_link=baseurl,
+                        model_link=url_model,
                     )
                     session.add(driver)
                     session.commit()
@@ -121,6 +120,6 @@ def show_model(model, url_model, date_after=None):
 
 if __name__ == "__main__":
     model = "SRX4100"
-    url_model = "srx4100"
+    url_model = "https://support.juniper.net/support/downloads/?p=srx4100"
     date_after = datetime.strptime("2022-01-01", "%Y-%m-%d").date()
     show_model(model, url_model, date_after)

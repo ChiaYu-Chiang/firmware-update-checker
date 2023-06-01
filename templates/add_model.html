@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block styles %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="col-auto">
+        <div class="alert alert-dark alert-dismissible fade show" role="alert">
+            新增目標將在下次排程時執行
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% if message %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+        <form method="POST" action="{{ url_for('add_model') }}" class="row row-cols-lg-auto">
+            <div class="col-auto">
+                <label for="brand" class="form-label">請選擇品牌</label>
+                <select name="brand" id="brand" class="form-select">
+                    <option value="">請選擇</option>
+                    {% for brand in brands %}
+                        <option value="{{ brand }}">{{ brand }}</option>
+                    {% endfor %}
+                    <option value="other">其他</option>
+                </select>
+            </div>
+            <div id="other_brand" class="col-auto">
+                <label for="other_brand" class="form-label">請輸入品牌</label>
+                <input type="text" name="other_brand" id="other_brand" class="form-control">
+            </div>
+            <div class="col-auto">
+                <label for="model" class="form-label">請輸入型號</label>
+                <input type="text" name="model" id="model" class="form-control" required>
+            </div>
+            <div class="col-auto">
+                <label for="model_link" class="form-label">請輸入型號連結</label>
+                <input type="text" name="model_link" id="model_link" class="form-control">
+            </div>
+            <div class="col-auto align-self-center">
+                <input type="submit" value="送出" class="btn btn-primary"> 
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='add_model_form.js') }}"></script>
+{% endblock %}

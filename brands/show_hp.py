@@ -188,9 +188,8 @@ def show_model(model, url_model, date_after=None):
     wait = WebDriverWait(browser, 30)
 
     # 訪問網頁
-    baseurl = f"https://support.hpe.com/connect/s/product?language=en_US&ismnp={url_model}&tab=driversAndSoftware"
     time.sleep(delay)
-    browser.get(baseurl)
+    browser.get(url_model)
 
     # 透過 cookie 設定語言為英文
     browser.delete_all_cookies()
@@ -214,11 +213,11 @@ def show_model(model, url_model, date_after=None):
     if filter_firmware:
         time.sleep(delay)
         filter_firmware[0].click()
-        use_me(wait=wait, browser=browser, brand=brand, model=model, baseurl=baseurl)
+        use_me(wait=wait, browser=browser, brand=brand, model=model, baseurl=url_model)
     if filter_bios:
         time.sleep(delay)
         filter_bios[0].click()
-        use_me(wait=wait, browser=browser, brand=brand, model=model, baseurl=baseurl)
+        use_me(wait=wait, browser=browser, brand=brand, model=model, baseurl=url_model)
 
     # 等待使用者手動關閉瀏覽器
     # input("Press any key to close the browser...")
@@ -227,6 +226,6 @@ def show_model(model, url_model, date_after=None):
 
 if __name__ == "__main__":
     model = "DL380 G7"
-    url_model = "0&l5oid=4091412&cep=on&kmpmoid=4091567"
+    url_model = "https://support.hpe.com/connect/s/product?language=en_US&ismnp=0&l5oid=4091412&cep=on&kmpmoid=4091567&tab=driversAndSoftware"
     date_after = datetime.strptime("2000-01-01", "%Y-%m-%d").date()
     show_model(model, url_model, date_after)
