@@ -8,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from brands.databases.database import Target
 
 
-with open("models.json") as file:
+with open("models.json", encoding="utf-8") as file:
     data = json.load(file)
 
 engine = create_engine("sqlite:///brands/databases/firmwares.sqlite")

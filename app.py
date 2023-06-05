@@ -8,6 +8,7 @@ from werkzeug.exceptions import HTTPException
 import logging
 from brands.databases.notifications.notification import send_line_notification
 from sqlalchemy.exc import IntegrityError
+from urllib.request import urlopen
 
 
 app = Flask(__name__)
@@ -64,13 +65,17 @@ def add_model():
         model_link = request.form.get("model_link")
         session = Session()
         try:
-            driver = Target(brand=brand, model=model, model_link=model_link)
-            session.add(driver)
-            session.commit()
-            message = "新增成功"
-        except IntegrityError:
-            session.rollback()
-            message = "此筆資料已經存在"
+            urlopen(model_link)
+            try:
+                driver = Target(brand=brand, model=model, model_link=model_link)
+                session.add(driver)
+                session.commit()
+                message = "新增成功"
+            except IntegrityError:
+                session.rollback()
+                message = "此筆資料已經存在"
+        except:
+            message = "請確認網址是否正確"
         brands = session.query(Target.brand).distinct().all()
         session.close()
         brands = [brand[0] for brand in brands if brand[0]]
