@@ -36,37 +36,9 @@ pip install -r requirements.txt
 
 ## How to use
 
-1. Insert each model you want into models.json 
-```json
-[
-    {
-        "brand": "aaa",
-        "models": [
-            {
-                "model": "aaa's model 1",
-                "url_model": ""
-            },
-            {
-                "model": "aaa's model 2",
-                "url_model": ""
-            }
-        ]
-    },
-    {
-        "brand": "bbb",
-        "models": [
-            {
-                "model": "bbb's model 1",
-                "url_model": ""
-            },
-            {
-                "model": "bbb's model 2",
-                "url_model": ""
-            }
-        ]
-    }
-]
-```
+1. Visit website.
+* <http://127.0.0.1:5001/add_model>
+* input the target of crawler and submit to database
 2. Execute program.
 * windows
 ```shell
