@@ -15,7 +15,7 @@ app = Flask(__name__)
 bootstrap = Bootstrap5(app)
 
 # 建立資料庫連線
-engine = create_engine("sqlite:///brands/databases/firmwares.sqlite")
+engine = create_engine("sqlite:///brands/databases/test.sqlite")
 Session = sessionmaker(bind=engine)
 
 

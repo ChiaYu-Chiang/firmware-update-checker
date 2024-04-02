@@ -11,7 +11,7 @@ from brands.databases.database import Target
 with open("models.json", encoding="utf-8") as file:
     data = json.load(file)
 
-engine = create_engine("sqlite:///brands/databases/firmwares.sqlite")
+engine = create_engine("sqlite:///brands/databases/test.sqlite")
 Session = sessionmaker(bind=engine)
 session = Session()
 

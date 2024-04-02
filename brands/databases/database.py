@@ -54,10 +54,10 @@ class Target(Base):
 engine = create_engine("sqlite:///brands/databases/firmwares.sqlite")
 test = create_engine("sqlite:///brands/databases/test.sqlite")
 # 建立資料表
-Base.metadata.create_all(engine)
+Base.metadata.create_all(test)
 
 # 建立 session 類別
-Session = sessionmaker(bind=engine)
+Session = sessionmaker(bind=test)
 
 
 # 監聽事件，當資料庫 commit 時，發送通知

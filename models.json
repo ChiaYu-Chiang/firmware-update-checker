@@ -1,393 +1,393 @@
 [
-    {
-        "brand": "aic",
-        "models": [
-            {
-                "model": "16U Rack",
-                "url_model": ""
-            },
-            {
-                "model": "19MD-B312-A4",
-                "url_model": ""
-            }
-        ]
-    },
-    {
-        "brand": "a10",
-        "models": [
-            {
-                "model": "TH1030S",
-                "url_model": ""
-            }
-        ]
-    },
-    {
-        "brand": "bigtera",
-        "models": [
-            {
-                "model": "S350-16-OSD",
-                "url_model": ""
-            }
-        ]
-    },
-    {
-        "brand": "brocade",
-        "models": [
-            {
-                "model": "300",
-                "url_model": ""
-            },
-            {
-                "model": "ICX6450",
-                "url_model": ""
-            }
-        ]
-    },
-    {
-        "brand": "cisco",
-        "models": [
-            {
-                "model": "2960X",
-                "url_model": ""
-            },
-            {
-                "model": "2960",
-                "url_model": ""
-            },
-            {
-                "model": "2960G",
-                "url_model": ""
-            },
-            {
-                "model": "2960S",
-                "url_model": ""
-            },
-            {
-                "model": "WS-C2960S-24TS-S",
-                "url_model": "282867583/type/280805680"
-            },
-            {
-                "model": "WS-C2960S-48TS-L",
-                "url_model": "282867573/type/280805680"
-            },
-            {
-                "model": "WS-C2960X-24TS-L",
-                "url_model": "284795737/type/280805680"
-            },
-            {
-                "model": "WS-C2960G-24TC-L",
-                "url_model": ""
-            },
-            {
-                "model": "3560G",
-                "url_model": ""
-            },
-            {
-                "model": "3560X",
-                "url_model": ""
-            },
-            {
-                "model": "WS-C3560X-48T-S",
-                "url_model": "282979304/type/280805680"
-            },
-            {
-                "model": "3750",
-                "url_model": ""
-            },
-            {
-                "model": "3750X",
-                "url_model": ""
-            },
-            {
-                "model": "3850",
-                "url_model": ""
-            },
-            {
-                "model": "N7K-C7004-S2E",
-                "url_model": "284472710/type/282253564"
-            },
-            {
-                "model": "Nexus N9K-C9332PQ",
-                "url_model": "286279793/type/282253564"
-            },
-            {
-                "model": "Nexus N9K-C9372PX",
-                "url_model": "286279782/type/282253564"
-            }
-        ]
-    },
-    {
-        "brand": "dell",
-        "models": [
-            {
-                "model": "1850",
-                "url_model": "poweredge-1850"
-            },
-            {
-                "model": "R410",
-                "url_model": "poweredge-r410"
-            },
-            {
-                "model": "R420",
-                "url_model": "poweredge-r420"
-            },
-            {
-                "model": "R610",
-                "url_model": "poweredge-r610"
-            },
-            {
-                "model": "R630",
-                "url_model": "poweredge-r630"
-            },
-            {
-                "model": "R710",
-                "url_model": "poweredge-r710"
-            },
-            {
-                "model": "R720",
-                "url_model": "poweredge-r720"
-            },
-            {
-                "model": "R730",
-                "url_model": "poweredge-r730"
-            },
-            {
-                "model": "PowerEdge R730",
-                "url_model": "poweredge-r730"
-            },
-            {
-                "model": "PowerEdge R740",
-                "url_model": "poweredge-r740"
-            },
-            {
-                "model": "PowerEdge R740xd",
-                "url_model": "poweredge-r740xd"
-            },
-            {
-                "model": "R740XD vSAN Ready Node",
-                "url_model": "vsan-ready-node-r740xd"
-            },
-            {
-                "model": "R750",
-                "url_model": "poweredge-r750"
-            },
-            {
-                "model": "5524 switch",
-                "url_model": "powerconnect-5524"
-            },
-            {
-                "model": "Backend switch",
-                "url_model": ""
-            },
-            {
-                "model": "Frontend switch",
-                "url_model": ""
-            },
-            {
-                "model": "MD3820F",
-                "url_model": "powervault-md3820f"
-            },
-            {
-                "model": "Unity 480",
-                "url_model": "unity-480"
-            },
-            {
-                "model": "Unity 480F",
-                "url_model": "unity-480f"
-            }
-        ]
-    },
-    {
-        "brand": "fortinet",
-        "models": [
-            {
-                "model": "100D",
-                "url_model": ""
-            },
-            {
-                "model": "200D",
-                "url_model": ""
-            },
-            {
-                "model": "300D",
-                "url_model": ""
-            },
-            {
-                "model": "F81E",
-                "url_model": ""
-            },
-            {
-                "model": "60E",
-                "url_model": ""
-            },
-            {
-                "model": "60F",
-                "url_model": ""
-            }
-        ]
-    },
-    {
-        "brand": "f5",
-        "models": [
-            {
-                "model": "I5800",
-                "url_model": ""
-            }
-        ]
-    },
-    {
-        "brand": "hp",
-        "models": [
-            {
-                "model": "DL380 G7",
-                "url_model": "0&l5oid=4091412&cep=on&kmpmoid=4091567"
-            },
-            {
-                "model": "DL360 G8",
-                "url_model": ""
-            },
-            {
-                "model": "1920S",
-                "url_model": ""
-            },
-            {
-                "model": "1920 switch",
-                "url_model": ""
-            },
-            {
-                "model": "1920-48G Switch JG927A",
-                "url_model": "1&l5oid=1009689650&cep=on&kmpmoid=1009689655"
-            },
-            {
-                "model": "SAN switch",
-                "url_model": ""
-            },
-            {
-                "model": "3par7200",
-                "url_model": "0&l5oid=5335712&cep=on&kmpmoid=5335766"
-            }
-        ]
-    },
-    {
-        "brand": "ibm",
-        "models": [
-            {
-                "model": "x3250M3",
-                "url_model": "systemx/selectFixes?parent=System%20x3250%20M3&product=ibm/systemx/4251"
-            }
-        ]
-    },
-    {
-        "brand": "juniper",
-        "models": [
-            {
-                "model": "5gt",
-                "url_model": ""
-            },
-            {
-                "model": "EX2200",
-                "url_model": "ex2200"
-            },
-            {
-                "model": "EX3200",
-                "url_model": "ex3200"
-            },
-            {
-                "model": "EX4200",
-                "url_model": "ex4200"
-            },
-            {
-                "model": "EX4200(CCIS)",
-                "url_model": ""
-            },
-            {
-                "model": "EX4200(CCIS)Stanby",
-                "url_model": ""
-            },
-            {
-                "model": "EX4550-01",
-                "url_model": "ex4550"
-            },
-            {
-                "model": "EX4550-02",
-                "url_model": ""
-            },
-            {
-                "model": "MAG 2600",
-                "url_model": ""
-            },
-            {
-                "model": "SRX100",
-                "url_model": "srx100"
-            },
-            {
-                "model": "SRX4100",
-                "url_model": "srx4100"
-            }
-        ]
-    },
-    {
-        "brand": "netapp",
-        "models": [
-            {
-                "model": "AFF-A200",
-                "url_model": ""
-            }
-        ]
-    },
-    {
-        "brand": "qnap",
-        "models": [
-            {
-                "model": "TS-269L",
-                "url_model": "ts-269l"
-            },
-            {
-                "model": "TS-269 Pro",
-                "url_model": "ts-269%20pro"
-            },
-            {
-                "model": "TS-470 Pro",
-                "url_model": "ts-470%20pro"
-            }
-        ]
-    },
-    {
-        "brand": "supermicro",
-        "models": [
-            {
-                "model": "S350-16-OSD",
-                "url_model": ""
-            },
-            {
-                "model": "S350-16-OSD E5-2620v2",
-                "url_model": ""
-            }
-        ]
-    },
-    {
-        "brand": "others",
-        "models": [
-            {
-                "model": "A10 1030S",
-                "url_model": ""
-            },
-            {
-                "model": "A10 AX2100",
-                "url_model": ""
-            },
-            {
-                "model": "SafeNet PL220-01(不繼續使用)",
-                "url_model": ""
-            },
-            {
-                "model": "SafeNet PL220-02(不繼續使用)",
-                "url_model": ""
-            },
-            {
-                "model": "STS",
-                "url_model": ""
-            }
-        ]
-    }
+  {
+    "brand": "aic",
+    "models": [
+      {
+        "model": "16U Rack",
+        "url_model": ""
+      },
+      {
+        "model": "19MD-B312-A4",
+        "url_model": ""
+      }
+    ]
+  },
+  {
+    "brand": "a10",
+    "models": [
+      {
+        "model": "TH1030S",
+        "url_model": ""
+      }
+    ]
+  },
+  {
+    "brand": "bigtera",
+    "models": [
+      {
+        "model": "S350-16-OSD",
+        "url_model": ""
+      }
+    ]
+  },
+  {
+    "brand": "brocade",
+    "models": [
+      {
+        "model": "300",
+        "url_model": ""
+      },
+      {
+        "model": "ICX6450",
+        "url_model": ""
+      }
+    ]
+  },
+  {
+    "brand": "cisco",
+    "models": [
+      {
+        "model": "2960X",
+        "url_model": ""
+      },
+      {
+        "model": "2960",
+        "url_model": ""
+      },
+      {
+        "model": "2960G",
+        "url_model": ""
+      },
+      {
+        "model": "2960S",
+        "url_model": ""
+      },
+      {
+        "model": "WS-C2960S-24TS-S",
+        "url_model": "282867583/type/280805680"
+      },
+      {
+        "model": "WS-C2960S-48TS-L",
+        "url_model": "282867573/type/280805680"
+      },
+      {
+        "model": "WS-C2960X-24TS-L",
+        "url_model": "284795737/type/280805680"
+      },
+      {
+        "model": "WS-C2960G-24TC-L",
+        "url_model": ""
+      },
+      {
+        "model": "3560G",
+        "url_model": ""
+      },
+      {
+        "model": "3560X",
+        "url_model": ""
+      },
+      {
+        "model": "WS-C3560X-48T-S",
+        "url_model": "282979304/type/280805680"
+      },
+      {
+        "model": "3750",
+        "url_model": ""
+      },
+      {
+        "model": "3750X",
+        "url_model": ""
+      },
+      {
+        "model": "3850",
+        "url_model": ""
+      },
+      {
+        "model": "N7K-C7004-S2E",
+        "url_model": "284472710/type/282253564"
+      },
+      {
+        "model": "Nexus N9K-C9332PQ",
+        "url_model": "286279793/type/282253564"
+      },
+      {
+        "model": "Nexus N9K-C9372PX",
+        "url_model": "286279782/type/282253564"
+      }
+    ]
+  },
+  {
+    "brand": "dell",
+    "models": [
+      {
+        "model": "1850",
+        "url_model": "poweredge-1850"
+      },
+      {
+        "model": "R410",
+        "url_model": "poweredge-r410"
+      },
+      {
+        "model": "R420",
+        "url_model": "poweredge-r420"
+      },
+      {
+        "model": "R610",
+        "url_model": "poweredge-r610"
+      },
+      {
+        "model": "R630",
+        "url_model": "poweredge-r630"
+      },
+      {
+        "model": "R710",
+        "url_model": "poweredge-r710"
+      },
+      {
+        "model": "R720",
+        "url_model": "poweredge-r720"
+      },
+      {
+        "model": "R730",
+        "url_model": "poweredge-r730"
+      },
+      {
+        "model": "PowerEdge R730",
+        "url_model": "poweredge-r730"
+      },
+      {
+        "model": "PowerEdge R740",
+        "url_model": "poweredge-r740"
+      },
+      {
+        "model": "PowerEdge R740xd",
+        "url_model": "poweredge-r740xd"
+      },
+      {
+        "model": "R740XD vSAN Ready Node",
+        "url_model": "vsan-ready-node-r740xd"
+      },
+      {
+        "model": "R750",
+        "url_model": "poweredge-r750"
+      },
+      {
+        "model": "5524 switch",
+        "url_model": "powerconnect-5524"
+      },
+      {
+        "model": "Backend switch",
+        "url_model": ""
+      },
+      {
+        "model": "Frontend switch",
+        "url_model": ""
+      },
+      {
+        "model": "MD3820F",
+        "url_model": "powervault-md3820f"
+      },
+      {
+        "model": "Unity 480",
+        "url_model": "unity-480"
+      },
+      {
+        "model": "Unity 480F",
+        "url_model": "unity-480f"
+      }
+    ]
+  },
+  {
+    "brand": "fortinet",
+    "models": [
+      {
+        "model": "100D",
+        "url_model": ""
+      },
+      {
+        "model": "200D",
+        "url_model": ""
+      },
+      {
+        "model": "300D",
+        "url_model": ""
+      },
+      {
+        "model": "F81E",
+        "url_model": ""
+      },
+      {
+        "model": "60E",
+        "url_model": ""
+      },
+      {
+        "model": "60F",
+        "url_model": ""
+      }
+    ]
+  },
+  {
+    "brand": "f5",
+    "models": [
+      {
+        "model": "I5800",
+        "url_model": ""
+      }
+    ]
+  },
+  {
+    "brand": "hp",
+    "models": [
+      {
+        "model": "DL380 G7",
+        "url_model": "0&l5oid=4091412&cep=on&kmpmoid=4091567"
+      },
+      {
+        "model": "DL360 G8",
+        "url_model": ""
+      },
+      {
+        "model": "1920S",
+        "url_model": ""
+      },
+      {
+        "model": "1920 switch",
+        "url_model": ""
+      },
+      {
+        "model": "1920-48G Switch JG927A",
+        "url_model": "1&l5oid=1009689650&cep=on&kmpmoid=1009689655"
+      },
+      {
+        "model": "SAN switch",
+        "url_model": ""
+      },
+      {
+        "model": "3par7200",
+        "url_model": "0&l5oid=5335712&cep=on&kmpmoid=5335766"
+      }
+    ]
+  },
+  {
+    "brand": "ibm",
+    "models": [
+      {
+        "model": "x3250M3",
+        "url_model": "systemx/selectFixes?parent=System%20x3250%20M3&product=ibm/systemx/4251"
+      }
+    ]
+  },
+  {
+    "brand": "juniper",
+    "models": [
+      {
+        "model": "5gt",
+        "url_model": ""
+      },
+      {
+        "model": "EX2200",
+        "url_model": "ex2200"
+      },
+      {
+        "model": "EX3200",
+        "url_model": "ex3200"
+      },
+      {
+        "model": "EX4200",
+        "url_model": "ex4200"
+      },
+      {
+        "model": "EX4200(CCIS)",
+        "url_model": ""
+      },
+      {
+        "model": "EX4200(CCIS)Stanby",
+        "url_model": ""
+      },
+      {
+        "model": "EX4550-01",
+        "url_model": "ex4550"
+      },
+      {
+        "model": "EX4550-02",
+        "url_model": ""
+      },
+      {
+        "model": "MAG 2600",
+        "url_model": ""
+      },
+      {
+        "model": "SRX100",
+        "url_model": "srx100"
+      },
+      {
+        "model": "SRX4100",
+        "url_model": "srx4100"
+      }
+    ]
+  },
+  {
+    "brand": "netapp",
+    "models": [
+      {
+        "model": "AFF-A200",
+        "url_model": ""
+      }
+    ]
+  },
+  {
+    "brand": "qnap",
+    "models": [
+      {
+        "model": "TS-269L",
+        "url_model": "ts-269l"
+      },
+      {
+        "model": "TS-269 Pro",
+        "url_model": "ts-269%20pro"
+      },
+      {
+        "model": "TS-470 Pro",
+        "url_model": "ts-470%20pro"
+      }
+    ]
+  },
+  {
+    "brand": "supermicro",
+    "models": [
+      {
+        "model": "S350-16-OSD",
+        "url_model": ""
+      },
+      {
+        "model": "S350-16-OSD E5-2620v2",
+        "url_model": ""
+      }
+    ]
+  },
+  {
+    "brand": "others",
+    "models": [
+      {
+        "model": "A10 1030S",
+        "url_model": ""
+      },
+      {
+        "model": "A10 AX2100",
+        "url_model": ""
+      },
+      {
+        "model": "SafeNet PL220-01(不繼續使用)",
+        "url_model": ""
+      },
+      {
+        "model": "SafeNet PL220-02(不繼續使用)",
+        "url_model": ""
+      },
+      {
+        "model": "STS",
+        "url_model": ""
+      }
+    ]
+  }
 ]

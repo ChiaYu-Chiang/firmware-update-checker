@@ -49,7 +49,7 @@ if __name__ == "__main__":
 # The upper comment is the original code, use json to crawl. The following code use database to crawl.
 
 if __name__ == "__main__":
-    engine = create_engine("sqlite:///brands/databases/firmwares.sqlite")
+    engine = create_engine("sqlite:///brands/databases/test.sqlite")
     Session = sessionmaker(bind=engine)
     session = Session()
     query = session.query(Target).all()
