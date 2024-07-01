@@ -105,7 +105,7 @@ def show_model(model, url_model, date_after=None):
 
             # 資料格式處理
             importance = None if importance == "" else importance
-            release_date = datetime.strptime(release_date, "%Y/%m/%d").date()
+            release_date = datetime.strptime(release_date, "%a %b %d %H:%M:%S %Z %Y").date()
             if url == baseurl:
                 baseurl = baseurl
             else:

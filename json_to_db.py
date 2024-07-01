@@ -2,17 +2,22 @@
 此json_to_db.py用於將原有的json檔案轉換成資料庫儲存的格式
 """
 import json
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, declarative_base
 from brands.databases.database import Target
 
 
 with open("models.json", encoding="utf-8") as file:
     data = json.load(file)
 
+server = '10.210.31.15:1433'
+database = 'brian'
+username = 'brian'
+password = 'Chief26576688'
+
+remote_db = create_engine(f'mssql+pymssql://{username}:{password}@{server}/{database}')
 engine = create_engine("sqlite:///brands/databases/test.sqlite")
-Session = sessionmaker(bind=engine)
+Session = sessionmaker(bind=remote_db)
 session = Session()
 
 for item in data:

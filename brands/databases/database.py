@@ -8,8 +8,7 @@ from sqlalchemy import (
     DateTime,
     UniqueConstraint,
 )
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, declarative_base
 from brands.databases.notifications.notification import (
     send_line_notification,
     send_email_notification,
@@ -25,8 +24,8 @@ class Driver(Base):
     __tablename__ = "drivers"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    brand = Column(String)
-    model = Column(String)
+    brand = Column(String(255))
+    model = Column(String(255))
     title = Column(String)
     version = Column(String)
     importance = Column(String)
@@ -42,8 +41,8 @@ class Driver(Base):
 class Target(Base):
     __tablename__ = "targets"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    brand = Column(String)
-    model = Column(String)
+    brand = Column(String(255))
+    model = Column(String(255))
     model_link = Column(String)
     created_at = Column(DateTime, default=datetime.now)
     # brand, model 組合為 unique
@@ -51,13 +50,19 @@ class Target(Base):
 
 
 # 定義連接引擎
+server = '10.210.31.15:1433'
+database = 'brian'
+username = 'brian'
+password = 'Chief26576688'
+
 engine = create_engine("sqlite:///brands/databases/firmwares.sqlite")
 test = create_engine("sqlite:///brands/databases/test.sqlite")
+remote_db = create_engine(f'mssql+pymssql://{username}:{password}@{server}/{database}')
 # 建立資料表
-Base.metadata.create_all(test)
+Base.metadata.create_all(remote_db)
 
 # 建立 session 類別
-Session = sessionmaker(bind=test)
+Session = sessionmaker(bind=remote_db)
 
 
 # 監聽事件，當資料庫 commit 時，發送通知

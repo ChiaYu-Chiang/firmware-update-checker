@@ -49,8 +49,14 @@ if __name__ == "__main__":
 # The upper comment is the original code, use json to crawl. The following code use database to crawl.
 
 if __name__ == "__main__":
+    server = '10.210.31.15:1433'
+    database = 'brian'
+    username = 'brian'
+    password = 'Chief26576688'
+
+    remote_db = create_engine(f'mssql+pymssql://{username}:{password}@{server}/{database}')
     engine = create_engine("sqlite:///brands/databases/test.sqlite")
-    Session = sessionmaker(bind=engine)
+    Session = sessionmaker(bind=remote_db)
     session = Session()
     query = session.query(Target).all()
     session.close()
@@ -66,7 +72,7 @@ if __name__ == "__main__":
 
     while pool:
         brand_name, model_name, url_name, module = pool.pop()
-        earliest_date = "2022-01-01"
+        earliest_date = "2015-01-01"
         date_after = datetime.strptime(earliest_date, "%Y-%m-%d").date()
         if url_name:
             try:

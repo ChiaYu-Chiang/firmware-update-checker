@@ -15,8 +15,14 @@ app = Flask(__name__)
 bootstrap = Bootstrap5(app)
 
 # 建立資料庫連線
+server = '10.210.31.15:1433'
+database = 'brian'
+username = 'brian'
+password = 'Chief26576688'
+
+remote_db = create_engine(f'mssql+pymssql://{username}:{password}@{server}/{database}')
 engine = create_engine("sqlite:///brands/databases/test.sqlite")
-Session = sessionmaker(bind=engine)
+Session = sessionmaker(bind=remote_db)
 
 
 class LineNotifyHandler(logging.Handler):

@@ -183,7 +183,7 @@ def show_model(model, url_model, date_after=None):
     options.add_argument("window-size=1920,1080")
 
     # 啟動瀏覽器
-    chrome_driver_path = Service("../chromedriver")
+    chrome_driver_path = Service("C:/Users/Administrator/Documents/firmware-update-checker/chromedriver")
     browser = webdriver.Chrome(service=chrome_driver_path, options=options)
     wait = WebDriverWait(browser, 30)
 
@@ -225,7 +225,7 @@ def show_model(model, url_model, date_after=None):
 
 
 if __name__ == "__main__":
-    model = "DL380 G7"
-    url_model = "https://support.hpe.com/connect/s/product?language=en_US&ismnp=0&l5oid=4091412&cep=on&kmpmoid=4091567&tab=driversAndSoftware"
+    model = "3par7200"
+    url_model = "https://support.hpe.com/connect/s/product?language=en_US&ismnp=0&l5oid=5335712&cep=on&kmpmoid=5335766&tab=driversAndSoftware"
     date_after = datetime.strptime("2000-01-01", "%Y-%m-%d").date()
     show_model(model, url_model, date_after)
