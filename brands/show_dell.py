@@ -29,6 +29,7 @@ def show_model(model, url_model, date_after=None):
     cookie = {"name": "lwp", "value": "c=us&l=en&cs=04&s=bsd"}
     browser.add_cookie(cookie)
     browser.refresh()
+    time.sleep(2)
 
     os_selector = wait.until(
         EC.visibility_of_element_located(
@@ -48,7 +49,8 @@ def show_model(model, url_model, date_after=None):
 
     filter_button = wait.until(EC.element_to_be_clickable((By.ID, "ddl-dwldtype-btn")))
     time.sleep(delay)
-    filter_button.click()
+    browser.execute_script("arguments[0].click();", filter_button)
+    time.sleep(2)
     try:
         # 勾選 BIOS 和韌體的 checkbox
         filter_BIOS = browser.find_element(By.XPATH, '//*[@id="ddl-dwldtype_BIOS"]')
@@ -59,7 +61,7 @@ def show_model(model, url_model, date_after=None):
         pass
     # 點擊下載類型的按鈕以收起選項
     time.sleep(delay)
-    filter_button.click()
+    browser.execute_script("arguments[0].click();", filter_button)
 
     try:
         # 等待按鈕元素出現
@@ -69,7 +71,7 @@ def show_model(model, url_model, date_after=None):
 
         time.sleep(delay)
         # 點擊按鈕
-        show_all_button.click()
+        browser.execute_script("arguments[0].click();", show_all_button)
     except:
         None
 
@@ -105,7 +107,10 @@ def show_model(model, url_model, date_after=None):
         if release_date > date_after:
             time.sleep(delay)
             # 點擊按鈕
-            button.click()
+            # button.click()
+            browser.execute_script("arguments[0].scrollIntoView(true);", button)
+            time.sleep(1)
+            browser.execute_script("arguments[0].click();", button)
 
             # 等待資料顯示出來
             wait.until(EC.presence_of_element_located((By.ID, f"child_{tr_id}")))
@@ -133,6 +138,7 @@ def show_model(model, url_model, date_after=None):
                 )
                 # 若為 loading 則等待後再次執行
                 if important_information == " Loading...":
+                    print("because loading")
                     time.sleep(delay)
                     imp_info = child_point.find_element(By.XPATH, "div[8]/p[2]")
                     imp_info_innerHTML = imp_info.get_attribute("innerHTML").replace(
@@ -176,7 +182,7 @@ def show_model(model, url_model, date_after=None):
 
 
 if __name__ == "__main__":
-    model = "R610"
-    url_model = "https://www.dell.com/support/home/en-us/product-support/product/poweredge-r610/drivers"
+    model = "R640"
+    url_model = "https://www.dell.com/support/home/en-us/product-support/product/poweredge-r640/drivers"
     date_after = datetime.strptime("2022-01-01", "%Y-%m-%d").date()
     show_model(model, url_model, date_after)

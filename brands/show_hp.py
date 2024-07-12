@@ -30,26 +30,21 @@ def get_detail_page(link):
         EC.presence_of_element_located(
             (
                 By.XPATH,
-                '//*[@id="tab-1"]/slot/lightning-formatted-rich-text/span/span',
+                '//*[@id="dceContent"]/div/div[2]/div/div/c-dce-software-collection/div[last()]/div[2]/div[2]/c-dce-software-collection-tabs/div/c-dce-tabset/div/div[2]/slot/c-dce-tab[1]/slot/lightning-formatted-rich-text/span'
             )
         )
     )
 
     try:
-        description = text_block.find_element(By.XPATH, "ul[1]/li").text
-    except:
         description = text_block.find_element(By.XPATH, "p[3]").text
+    except:
+        description = None
 
     try:
-        important_information = text_block.find_element(By.XPATH, "ul[2]/li").text
+        important_information = text_block.find_element(By.XPATH, "p[6]").text
     except:
-        try:
-            important_information = text_block.find_element(By.XPATH, "p[7]").text
-            if important_information == "&nbsp;":
-                important_information = None
-        except:
-            important_information = text_block.find_element(By.XPATH, "ul").text
-
+        important_information = None
+    
     browser.quit()
     return [description, important_information]
 
@@ -61,14 +56,14 @@ def use_me(wait, browser, brand, model, baseurl):
             EC.visibility_of_element_located(
                 (
                     By.XPATH,
-                    '//*[@id="tab-2"]/slot/c-dce-drivers-and-software/c-dce-table/div/div[4]/div/div[2]/c-dce-pager/nav/div/lightning-combobox/div/lightning-base-combobox',
+                    '//*[@id="tab-3"]/slot/c-dce-drivers-and-software/c-dce-table/div/div[4]/div/div[2]/c-dce-pager/nav/div/lightning-combobox/div/div/lightning-base-combobox',
                 )
             )
         )
 
         # 點擊選單
         click_test = WebDriverWait(element, 30).until(
-            EC.element_to_be_clickable((By.XPATH, "div/div[1]/button/span"))
+            EC.element_to_be_clickable((By.XPATH, "div/div/div[1]/button/span"))
         )
         time.sleep(delay)
         click_test.click()
@@ -76,7 +71,7 @@ def use_me(wait, browser, brand, model, baseurl):
         # 點擊選項
         selection = element.find_element(
             By.XPATH,
-            "div/div[2]/lightning-base-combobox-item[4]",
+            "div/div/div[2]/lightning-base-combobox-item[4]",
         )
         time.sleep(delay)
         selection.click()
@@ -88,7 +83,7 @@ def use_me(wait, browser, brand, model, baseurl):
     # 定位目標元素
     contents = browser.find_elements(
         By.XPATH,
-        "/html/body/div[3]/div[1]/div/div[3]/div/div[2]/div/div/c-dce-product/div/div[2]/lightning-tabset/div/slot/lightning-tab[2]/slot/c-dce-drivers-and-software/c-dce-table/div/div[4]/div/div[1]/div/c-dce-custom-columns-datatable/div[2]/div/div/table/tbody/tr",
+        "//*[@id='tab-3']/slot/c-dce-drivers-and-software/c-dce-table/div/div[4]/div/div[1]/div/c-dce-custom-columns-datatable/div[2]/div/div/table/tbody/tr",
     )
 
     # 創建 Session 實例
@@ -200,23 +195,22 @@ def show_model(model, url_model, date_after=None):
 
     filter_list = wait.until(
         EC.visibility_of_element_located(
-            (By.XPATH, '//*[@id="tab-2"]/slot/c-dce-drivers-and-software/div[1]')
+            (By.XPATH, '//*[@id="tab-3"]/slot/c-dce-drivers-and-software/div[1]')
         )
     )
     filter_firmware = filter_list.find_elements(
         By.XPATH, 'c-dce-button-filter/div/button[@title="Firmware"]'
-    )
+    )[0]
     filter_bios = filter_list.find_elements(
         By.XPATH, 'c-dce-button-filter/div/button[@title="BIOS"]'
-    )
-
+    )[0]
     if filter_firmware:
         time.sleep(delay)
-        filter_firmware[0].click()
+        browser.execute_script("arguments[0].click();", filter_firmware)
         use_me(wait=wait, browser=browser, brand=brand, model=model, baseurl=url_model)
     if filter_bios:
         time.sleep(delay)
-        filter_bios[0].click()
+        browser.execute_script("arguments[0].click();", filter_bios)
         use_me(wait=wait, browser=browser, brand=brand, model=model, baseurl=url_model)
 
     # 等待使用者手動關閉瀏覽器
@@ -225,7 +219,7 @@ def show_model(model, url_model, date_after=None):
 
 
 if __name__ == "__main__":
-    model = "3par7200"
-    url_model = "https://support.hpe.com/connect/s/product?language=en_US&ismnp=0&l5oid=5335712&cep=on&kmpmoid=5335766&tab=driversAndSoftware"
+    model = "DL380 G11"
+    url_model = "https://support.hpe.com/connect/s/product?language=en_US&cep=on&kmpmoid=1014696069&tab=driversAndSoftware"
     date_after = datetime.strptime("2000-01-01", "%Y-%m-%d").date()
     show_model(model, url_model, date_after)

@@ -50,10 +50,10 @@ class Target(Base):
 
 
 # 定義連接引擎
-server = '10.210.31.15:1433'
+server = ''
 database = 'brian'
 username = 'brian'
-password = 'Chief26576688'
+password = ''
 
 engine = create_engine("sqlite:///brands/databases/firmwares.sqlite")
 test = create_engine("sqlite:///brands/databases/test.sqlite")

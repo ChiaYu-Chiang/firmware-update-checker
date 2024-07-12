@@ -49,10 +49,10 @@ if __name__ == "__main__":
 # The upper comment is the original code, use json to crawl. The following code use database to crawl.
 
 if __name__ == "__main__":
-    server = '10.210.31.15:1433'
+    server = ''
     database = 'brian'
     username = 'brian'
-    password = 'Chief26576688'
+    password = ''
 
     remote_db = create_engine(f'mssql+pymssql://{username}:{password}@{server}/{database}')
     engine = create_engine("sqlite:///brands/databases/test.sqlite")

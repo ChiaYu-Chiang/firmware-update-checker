@@ -45,7 +45,7 @@ def show_model(model, url_model, date_after=None):
         title = content.find_element(By.XPATH, "div/div[1]/div[1]/div/span").text
         version = browser.find_element(
             By.XPATH, '//*[@id="release-version-title"]'
-        ).text
+        ).text.split('\n')[0].strip()
         release_date = content.find_element(By.XPATH, "div/div[2]").text
         download_link = url_model
         crawler_info = content.find_element(By.XPATH, "div/div[1]/div[2]/span").text
@@ -99,5 +99,5 @@ if __name__ == "__main__":
     url_model = (
         "https://software.cisco.com/download/home/282867583/type/280805680/release"
     )
-    date_after = datetime.strptime("2022-01-01", "%Y-%m-%d").date()
+    date_after = datetime.strptime("2000-01-01", "%Y-%m-%d").date()
     show_model(model, url_model, date_after)

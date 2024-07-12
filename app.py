@@ -5,25 +5,40 @@ from sqlalchemy.orm import sessionmaker
 from brands.databases.database import Driver, Target
 from logging.handlers import TimedRotatingFileHandler, HTTPHandler
 from werkzeug.exceptions import HTTPException
-import logging
+import logging, ssl
 from brands.databases.notifications.notification import send_line_notification
 from sqlalchemy.exc import IntegrityError
 from urllib.request import urlopen
+import importlib, os, sys
+from datetime import datetime
+from threading import Thread
 
+# importlib所需的路徑匯入
+root_path = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(root_path, "brands"))
 
 app = Flask(__name__)
 bootstrap = Bootstrap5(app)
 
 # 建立資料庫連線
-server = '10.210.31.15:1433'
+server = ''
 database = 'brian'
 username = 'brian'
-password = 'Chief26576688'
+password = ''
 
 remote_db = create_engine(f'mssql+pymssql://{username}:{password}@{server}/{database}')
 engine = create_engine("sqlite:///brands/databases/test.sqlite")
 Session = sessionmaker(bind=remote_db)
 
+def start_crawl(brand, model, model_link):
+    try:
+        print(f"start crawling {brand} {model}")
+        earliest_date = "2015-01-01"
+        date_after = datetime.strptime(earliest_date, "%Y-%m-%d").date()
+        module = importlib.import_module(f"show_{brand}")
+        module.show_model(model, model_link, date_after)
+    except Exception as e:
+        print(f"execute {brand} {model} crawl fail: {e}")
 
 class LineNotifyHandler(logging.Handler):
     def emit(self, record):
@@ -71,12 +86,16 @@ def add_model():
         model_link = request.form.get("model_link")
         session = Session()
         try:
+            ssl._create_default_https_context = ssl._create_unverified_context
             urlopen(model_link)
             try:
                 driver = Target(brand=brand, model=model, model_link=model_link)
                 session.add(driver)
                 session.commit()
                 message = "新增成功"
+                # 新增後直接執行爬蟲
+                crawl_thread = Thread(target=start_crawl, args=(brand, model, model_link))
+                crawl_thread.start()
             except IntegrityError:
                 session.rollback()
                 message = "此筆資料已經存在"

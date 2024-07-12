@@ -1,4 +1,5 @@
 from common_import import *
+from selenium.common.exceptions import StaleElementReferenceException
 
 delay = random.randint(2, 10)
 
@@ -22,15 +23,33 @@ def show_model(model, url_model, date_after=None):
     # 訪問網頁
     time.sleep(delay)
     browser.get(url_model)
-
+    
+    # 選擇junos
+    os_select = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="downloads-info"]/section/section[1]/div[1]/div[1]/div')))
+    os_select.click()
+    junos_option = os_select.find_element(By.XPATH, './/div[@title="Junos"]')
+    junos_option.click()
+    
     # 點擊展開按鈕
     button = wait.until(
         EC.element_to_be_clickable(
             (By.XPATH, '//*[@id="downloads-info"]/section/section[1]/div[2]/a')
         )
     )
-    time.sleep(delay)
-    button.click()
+    
+    # 增加重試機制以避免 StaleElementReferenceException
+    while True:
+        try:
+            time.sleep(delay)
+            button.click()
+            break
+        except StaleElementReferenceException:
+            button = wait.until(
+                EC.element_to_be_clickable(
+                    (By.XPATH, '//*[@id="downloads-info"]/section/section[1]/div[2]/a')
+                )
+            )
+            continue
 
     # 等待元素出現
     wait.until(
@@ -80,7 +99,7 @@ def show_model(model, url_model, date_after=None):
                 # 判斷資料是否已抓過
                 record = (
                     session.query(Driver)
-                    .filter_by(brand=brand, model=model, title=title, version=version)
+                    .filter_by(brand=brand, model=model, title=title, version=version, category=section_title)
                     .first()
                 )
                 if record:
@@ -119,7 +138,7 @@ def show_model(model, url_model, date_after=None):
 
 
 if __name__ == "__main__":
-    model = "SRX4100"
-    url_model = "https://support.juniper.net/support/downloads/?p=srx4100"
-    date_after = datetime.strptime("2022-01-01", "%Y-%m-%d").date()
+    model = "EX4600"
+    url_model = "https://support.juniper.net/support/downloads/?p=ex4600"
+    date_after = datetime.strptime("2020-01-01", "%Y-%m-%d").date()
     show_model(model, url_model, date_after)

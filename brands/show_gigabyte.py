@@ -22,17 +22,37 @@ def show_model(model, url_model, date_after=None):
     # 訪問網頁
     time.sleep(delay)
     browser.get(url_model)
-
-    # 等待資料顯示
+    
+    # 等待firmware資料顯示
+    firmware_button = browser.find_element(By.XPATH, '//*[@id="Section-Support"]/div/div[1]/div/ul/ul[1]/li[4]')
+    category = firmware_button.get_attribute("data-menu-item")
+    browser.execute_script("arguments[0].click();", firmware_button)
     element = wait.until(
         EC.visibility_of_element_located(
-            (By.XPATH, '//*[@id="Section-Support"]/div/div[2]/div[2]/div[4]')
+            (By.XPATH, '//*[@id="Section-Support"]/div/div[2]/div[3]/div[4]')
         )
     )
+    contents = element.find_elements(By.CLASS_NAME, "ContentLine")
+    get_data(brand, category, contents, url_model)
+    
+    # 等待bios資料顯示
+    bios_button = browser.find_element(By.XPATH, '//*[@id="Section-Support"]/div/div[1]/div/ul/ul[1]/li[2]')
+    category = bios_button.get_attribute("data-menu-item")
+    browser.execute_script("arguments[0].click();", bios_button)
+    element = wait.until(
+        EC.visibility_of_element_located(
+            (By.XPATH, '//*[@id="Section-Support"]/div/div[2]/div[3]/div[2]')
+        )
+    )
+    contents = element.find_elements(By.CLASS_NAME, "ContentLine")
+    get_data(brand, category, contents, url_model)
 
-    # 定位目標元素
-    contents = element.find_elements(By.XPATH, "div/div[2]/div[2]")
-
+    # 等待使用者手動關閉瀏覽器
+    # input("Press any key to close the browser...")
+    browser.quit()
+    
+    
+def get_data(brand, category, contents, url_model):
     # 創建 Session 實例
     session = Session()
 
@@ -57,7 +77,7 @@ def show_model(model, url_model, date_after=None):
         ).get_attribute("href")
 
         # 資料格式處理
-        release_date = datetime.strptime(release_date, "%Y/%m/%d").date()
+        release_date = datetime.strptime(release_date, "%b %d, %Y").date()
 
         # 判斷資料是否已抓過
         record = (
@@ -79,12 +99,13 @@ def show_model(model, url_model, date_after=None):
                 title=title,
                 version=version,
                 # importance=importance,
-                # category=category,
+                category=category,
                 release_date=release_date,
                 download_link=download_link,
                 # description=description,
                 # important_information=important_information,
                 # crawler_info=crawler_info,
+                model_link=url_model
             )
             session.add(driver)
             session.commit()
@@ -94,13 +115,9 @@ def show_model(model, url_model, date_after=None):
     # 關閉連線
     session.close()
 
-    # 等待使用者手動關閉瀏覽器
-    # input("Press any key to close the browser...")
-    browser.quit()
-
 
 if __name__ == "__main__":
-    model = "R182-340"
-    url_model = "https://www.gigabyte.com/us/Enterprise/Rack-Server/R182-340-rev-100#Support-Firmware"
-    date_after = datetime.strptime("2022-01-01", "%Y-%m-%d").date()
+    model = "R282-3C2"
+    url_model = "https://www.gigabyte.com/us/Enterprise/Rack-Server/R282-3C2-rev-100#Support"
+    date_after = datetime.strptime("2020-01-01", "%Y-%m-%d").date()
     show_model(model, url_model, date_after)
