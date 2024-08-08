@@ -10,7 +10,7 @@ from brands.databases.notifications.notification import send_line_notification
 from sqlalchemy.exc import IntegrityError
 from urllib.request import urlopen
 import importlib, os, sys
-from datetime import datetime
+from datetime import datetime, timedelta
 from threading import Thread
 
 # importlib所需的路徑匯入
@@ -124,7 +124,8 @@ def index():
     session = Session()
 
     # 建立查詢物件
-    query = session.query(Driver).order_by(Driver.release_date.desc())
+    one_month_ago = datetime.now() - timedelta(weeks=4)
+    query = session.query(Driver).filter(Driver.release_date >= one_month_ago).order_by(Driver.release_date.desc())
 
     # 篩選品牌
     if brand and brand != "All":
