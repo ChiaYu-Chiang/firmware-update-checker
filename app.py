@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from brands.databases.database import Driver, Target
 from logging.handlers import TimedRotatingFileHandler, HTTPHandler
 from werkzeug.exceptions import HTTPException
-import logging, ssl
+import logging, requests
 from brands.databases.notifications.notification import send_line_notification
 from sqlalchemy.exc import IntegrityError
 from urllib.request import urlopen
@@ -86,8 +86,7 @@ def add_model():
         model_link = request.form.get("model_link")
         session = Session()
         try:
-            ssl._create_default_https_context = ssl._create_unverified_context
-            urlopen(model_link)
+            response = requests.get(model_link, allow_redirects=True)
             try:
                 driver = Target(brand=brand, model=model, model_link=model_link)
                 session.add(driver)
@@ -99,8 +98,9 @@ def add_model():
             except IntegrityError:
                 session.rollback()
                 message = "此筆資料已經存在"
-        except:
+        except Exception as e:
             message = "請確認網址是否正確"
+            print(e)
         brands = session.query(Target.brand).distinct().all()
         session.close()
         brands = [brand[0] for brand in brands if brand[0]]
@@ -124,15 +124,25 @@ def index():
     session = Session()
 
     # 建立查詢物件
-    one_month_ago = datetime.now() - timedelta(weeks=4)
-    query = session.query(Driver).filter(Driver.release_date >= one_month_ago).order_by(Driver.release_date.desc())
+    query = session.query(Driver).order_by(Driver.release_date.desc())
+
+    has_filters = any([
+        brand and brand != "All",
+        model and model != "All",
+        importance and importance != "All",
+        search
+    ])
+    
+    if not has_filters:
+        one_month_ago = datetime.now() - timedelta(weeks=4)
+        query = query.filter(Driver.release_date >= one_month_ago)
 
     # 篩選品牌
     if brand and brand != "All":
         query = query.filter(Driver.brand == brand)
 
     # 篩選型號
-    if model:
+    if model and model != "All":
         query = query.filter(Driver.model == model)
 
     # 篩選重要性

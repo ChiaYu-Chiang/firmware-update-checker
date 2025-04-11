@@ -31,52 +31,64 @@ def show_model(model, url_model, date_after=None):
     browser.refresh()
     time.sleep(2)
 
-    os_selector = wait.until(
-        EC.visibility_of_element_located(
-            (By.XPATH, '//*[@id="driverFilter"]/div[2]/label')
-        )
-    ).get_attribute("for")
-    if os_selector != "no-os":
-        # 找到下拉式選單
-        element = wait.until(EC.element_to_be_clickable((By.ID, "operating-system")))
-        try:
-            time.sleep(delay)
-            # 選擇 option value="NAA" 的選項
-            select = Select(element)
-            select.select_by_value("NAA")
-        except:
-            pass
-
-    filter_button = wait.until(EC.element_to_be_clickable((By.ID, "ddl-dwldtype-btn")))
-    time.sleep(delay)
-    browser.execute_script("arguments[0].click();", filter_button)
-    time.sleep(2)
     try:
-        # 勾選 BIOS 和韌體的 checkbox
-        filter_BIOS = browser.find_element(By.XPATH, '//*[@id="ddl-dwldtype_BIOS"]')
-        filter_FRMW = browser.find_element(By.XPATH, '//*[@id="ddl-dwldtype_FRMW"]')
-        browser.execute_script("arguments[0].click();", filter_BIOS)
-        browser.execute_script("arguments[0].click();", filter_FRMW)
+        os_selector = wait.until(
+            EC.visibility_of_element_located(
+                (By.XPATH, '//*[@id="driverFilter"]/div[2]/label')
+            )
+        ).get_attribute("for")
+        if os_selector != "no-os":
+            # 找到下拉式選單
+            element = wait.until(EC.element_to_be_clickable((By.ID, "operating-system")))
+            try:
+                time.sleep(delay)
+                # 選擇 option value="NAA" 的選項
+                select = Select(element)
+                select.select_by_value("NAA")
+            except:
+                pass
     except:
         pass
-    # 點擊下載類型的按鈕以收起選項
-    time.sleep(delay)
-    browser.execute_script("arguments[0].click();", filter_button)
 
     try:
-        # 等待按鈕元素出現
-        show_all_button = wait.until(
-            EC.element_to_be_clickable((By.ID, "paginationRow"))
-        )
+        filter_button = wait.until(EC.element_to_be_clickable((By.ID, "ddl-dwldtype-btn")))
+        time.sleep(delay)
+        browser.execute_script("arguments[0].click();", filter_button)
+        time.sleep(2)
+        try:
+            # 勾選 BIOS 和韌體的 checkbox
+            filter_BIOS = browser.find_element(By.XPATH, '//*[@id="ddl-dwldtype_BIOS"]')
+            filter_FRMW = browser.find_element(By.XPATH, '//*[@id="ddl-dwldtype_FRMW"]')
+            browser.execute_script("arguments[0].click();", filter_BIOS)
+            browser.execute_script("arguments[0].click();", filter_FRMW)
+        except:
+            pass
+        # 點擊下載類型的按鈕以收起選項
+        time.sleep(delay)
+        browser.execute_script("arguments[0].click();", filter_button)
+    except:
+        pass
+
+    try:
+        try:
+            # 等待按鈕元素出現
+            show_all_button = wait.until(
+                EC.element_to_be_clickable((By.ID, "paginationRow"))
+            )
+        except:
+            show_all_button = wait.until(EC.element_to_be_clickable((By.ID, "showAllBtn")))
 
         time.sleep(delay)
         # 點擊按鈕
         browser.execute_script("arguments[0].click();", show_all_button)
-    except:
+    except Exception as e:
+        print(e)
         None
 
     # 定位按鈕元素
     buttons = browser.find_elements(By.NAME, "btnDriverListToggle")
+    if not buttons:
+        buttons = browser.find_elements(By.NAME, "btnEmcDrvLstToggle")
 
     # 創建 Session 實例
     session = Session()
@@ -113,19 +125,33 @@ def show_model(model, url_model, date_after=None):
             browser.execute_script("arguments[0].click();", button)
 
             # 等待資料顯示出來
-            wait.until(EC.presence_of_element_located((By.ID, f"child_{tr_id}")))
-            child_point = button.find_element(
-                By.XPATH, f'//tr[@id="child_{tr_id}"]/td[2]/section'
-            )
+            try:
+                wait.until(EC.presence_of_element_located((By.ID, f"child_{tr_id}")))
+                child_point = button.find_element(
+                    By.XPATH, f'//tr[@id="child_{tr_id}"]/td[2]/section'
+                )
+                version = child_point.find_element(By.XPATH, "div[5]/div[1]/p").text
+                download_link = tableRow_point.find_element(
+                    By.XPATH, "td[6]/div/a[2]"
+                ).get_attribute("href")
+                description = child_point.find_element(By.XPATH, "div[7]/p").text
+            except:
+                wait.until(EC.presence_of_element_located((By.ID, f"emcdetail-select_{tr_id}")))
+                child_point = button.find_element(
+                    By.XPATH, f'//input[@id="emcdetail-select_{tr_id}"]/../..'
+                )
+                version = ""
+                download_link = tableRow_point.find_element(
+                    By.XPATH, "td[6]/div[1]/div/a"
+                ).get_attribute("href")
+                try:
+                    description = child_point.find_element(By.XPATH, "div[6]/p[2]").text
+                except:
+                    description = child_point.find_element(By.XPATH, "div[5]/p[2]").text
 
             # 取得資料
-            version = child_point.find_element(By.XPATH, "div[5]/div[1]/p").text
             importance = tableRow_point.find_element(By.XPATH, "td[3]/span").text
             category = tableRow_point.find_element(By.XPATH, "td[4]").text
-            download_link = tableRow_point.find_element(
-                By.XPATH, "td[6]/div/a[2]"
-            ).get_attribute("href")
-            description = child_point.find_element(By.XPATH, "div[7]/p").text
             try:
                 imp_info = child_point.find_element(By.XPATH, "div[8]/p")
                 imp_info_innerHTML = imp_info.get_attribute("innerHTML").replace(
@@ -182,7 +208,7 @@ def show_model(model, url_model, date_after=None):
 
 
 if __name__ == "__main__":
-    model = "R640"
-    url_model = "https://www.dell.com/support/home/en-us/product-support/product/poweredge-r640/drivers"
+    model = "Unity XT 480"
+    url_model = "https://www.dell.com/support/home/en-us/product-support/product/unity-480/drivers"
     date_after = datetime.strptime("2022-01-01", "%Y-%m-%d").date()
     show_model(model, url_model, date_after)

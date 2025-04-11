@@ -1,17 +1,19 @@
+# SSO頁面登入步驟尚未自動化
 from common_import import *
+from selenium.common.exceptions import StaleElementReferenceException
 
 delay = random.randint(2, 10)
 
 
 def show_model(model, url_model, date_after=None):
-    brand = "cisco"
+    brand = "netapp"
 
     # 設定 webdriver 參數
     options = Options()
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
     options.add_experimental_option("prefs", {"intl.accept_languages": "en, en_US"})
     options.add_argument("--lang=en-US")
-    options.add_argument("headless")
+    # options.add_argument("headless")
     options.add_argument("window-size=1920,1080")
 
     # 啟動瀏覽器
@@ -22,37 +24,47 @@ def show_model(model, url_model, date_after=None):
     # 訪問網頁
     time.sleep(delay)
     browser.get(url_model)
-
+    input("Press any key to close the browser...")
+    # 選擇Platform
+    platform_select = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="platforms"]/span/select')))
+    platform_select.click()
+    option = platform_select.find_element(By.XPATH, './/option[@value="AFF-A200"]')
+    option.click()
+        
     # 等待元素出現
-    element = wait.until(
+    wait.until(
         EC.visibility_of_element_located(
             (
                 By.XPATH,
-                '//*[@id="fw-content"]/div/div/app-release-page/div/div[2]/app-image-details/div[2]/div[2]',
+                '//*[@id="allProductCheck"]',
             )
         )
     )
+    type = browser.find_element(
+        By.XPATH, '//*[@id="allProductCheck"]/div/div[1]'
+    )
+    type.click()
 
-    # 定位目標元素
-    contents = element.find_elements(By.XPATH, "div/div")
+    table = browser.find_element(By.XPATH, '//*[@id="ng2-smart-tablefirmware-system-firmware"]/table')
+    time.sleep(delay)
+    contents = table.find_elements(By.XPATH, 'tbody/tr')
 
     # 創建 Session 實例
     session = Session()
 
     # 遍歷每組資料
     for content in contents:
+
         # 取得資料
-        title = content.find_element(By.XPATH, "div/div[1]/div[1]/div/span").text
-        version = browser.find_element(
-            By.XPATH, '//*[@id="release-version-title"]'
-        ).text.split('\n')[0].strip()
-        release_date = content.find_element(By.XPATH, "div/div[2]").text
-        download_link = url_model
-        crawler_info = content.find_element(By.XPATH, "div/div[1]/div[2]/span").text
+        title = browser.find_element(By.XPATH, '//*[@id="content"]/div[3]/app-system-firmware-diagnostics/div/div[5]/div[2]/div[1]').text
+        version = content.find_element(By.XPATH, 'td[2]').text
+        release_date = content.find_element(By.XPATH, 'td[5]').text
+        download_link = content.find_element(By.XPATH, 'td[7]/ng2-smart-table-cell/table-cell-view-mode/div/custom-view-component/app-download-rurl-ender-system/span/a').get_attribute("href")
+        description = content.find_element(By.XPATH, 'td[3]').text
+        important_information = content.find_element(By.XPATH, 'td[6]/ng2-smart-table-cell/table-cell-view-mode/div/custom-view-component/app-notes-config-render/div/a').get_attribute("href")
 
         # 資料格式處理
         release_date = datetime.strptime(release_date, "%d-%b-%Y").date()
-
         # 判斷資料是否已抓過
         record = (
             session.query(Driver)
@@ -60,9 +72,8 @@ def show_model(model, url_model, date_after=None):
             .first()
         )
         if record:
-            if record.crawler_info == crawler_info:
-                print("Data already exist")
-                continue
+            print("Data already exist")
+            continue
 
         if release_date > date_after:
             # 寫入至資料庫
@@ -76,9 +87,9 @@ def show_model(model, url_model, date_after=None):
                 # category=category,
                 release_date=release_date,
                 download_link=download_link,
-                # description=description,
-                # important_information=important_information,
-                crawler_info=crawler_info,
+                description=description,
+                important_information=important_information,
+                # crawler_info=crawler_info,
                 model_link=url_model,
             )
             session.add(driver)
@@ -95,9 +106,10 @@ def show_model(model, url_model, date_after=None):
 
 
 if __name__ == "__main__":
-    model = "Nexus N9K-C9372PX"
-    url_model = (
-        "https://software.cisco.com/download/home/286279782/type/282088129/release"
-    )
-    date_after = datetime.strptime("2000-01-01", "%Y-%m-%d").date()
+    model = "AFF-A200"
+    url_model = "https://mysupport.netapp.com/site/downloads/firmware/system-firmware-diagnostics"
+    date_after = datetime.strptime("2020-01-01", "%Y-%m-%d").date()
     show_model(model, url_model, date_after)
+
+
+

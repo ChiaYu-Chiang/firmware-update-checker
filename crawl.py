@@ -66,6 +66,7 @@ if __name__ == "__main__":
         brand_name = item.brand
         model_name = item.model
         url_name = item.model_link
+        # 會執行brands路徑中show開頭的模組，若有需手動步驟的半自動化項目，記得修改檔名
         module = importlib.import_module(f"brands.show_{brand_name}")
         pool.append((brand_name, model_name, url_name, module))
     random.shuffle(pool)
